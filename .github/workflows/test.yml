@@ -10,8 +10,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Work Directory Change
-        run: cd nuxt
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -21,12 +19,16 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        working-directory: ./nuxt
 
       - name: Check browserslist
         run: npx browserslist@latest
+        working-directory: ./nuxt
 
       - name: Lint
         run: npm run lint
+        working-directory: ./nuxt
 
       - name: Build
         run: npm run generate
+        working-directory: ./nuxt
