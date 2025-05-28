@@ -1,47 +1,23 @@
-name: test and deploy
+name: deploy
 
 on:
-  push:
-    branches: ["**"]
+  workflow_run:
+    branches: ["main"]
+    workflows: ["test"]
+    types:
+      - completed
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm ci
-        working-directory: ./nuxt
-
-      - name: Check browserslist
-        run: npx browserslist@latest
-        working-directory: ./nuxt
-
-      - name: Lint
-        run: npm run lint
-        working-directory: ./nuxt
-
-      - name: Build
-        run: npm run generate
-        working-directory: ./nuxt
-
   deploy:
-    needs: test
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: "npm"
       - run: npm ci
         working-directory: ./nuxt
       - run: npm run generate
