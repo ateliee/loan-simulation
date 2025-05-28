@@ -120,3 +120,4 @@ const earlyRepaymentRemainingPrincipal = computed<number|undefined>(() => {
   font-size: 1.2em;
 }
 </style>
+~/nuxt/types/loan

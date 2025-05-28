@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: コミュニティ
+    url: https://github.com/ateliee/loan-simulation-app/discussions
+    about: 質問や議論はこちらでお願いします
+  - name: ドキュメント
+    url: https://github.com/ateliee/loan-simulation-app/wiki
+    about: プロジェクトのドキュメントはこちらをご覧ください
