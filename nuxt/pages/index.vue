@@ -106,9 +106,6 @@ const earlyRepaymentTotalSavings = computed<number|undefined>(() => {
   if (!earlyRepaymentYears.value) return undefined
   const months = earlyRepaymentYears.value * 12
 
-  // 早期返済期間中の支払い総額
-  const earlyPayment = earlyRepaymentTotalPayment.value || 0
-
   // 早期返済期間中の通常の支払い総額（早期返済しない場合）
   const normalPayment = resultTable.value
     .slice(0, months)

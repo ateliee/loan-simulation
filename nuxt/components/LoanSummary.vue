@@ -27,6 +27,8 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
 const props = defineProps({
   totalPayment: { type: Number, required: true },
   savings: { type: Number, required: true },
