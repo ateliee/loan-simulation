@@ -35,12 +35,12 @@ import LoanForm from '~/components/LoanForm.vue'
 import LoanResult from '~/components/LoanResult.vue'
 import LoanSummary from '~/components/LoanSummary.vue'
 
-const principal = ref(30000000)
-const years = ref(35)
-const rate = ref(0.8)
+const principal = ref<number>(60000000)
+const years = ref<number>(35)
+const rate = ref<number>(0.8)
 const repaymentType = ref('principalInterest')
-const monthlyCost = ref(20000)
-const savings = ref(200000)
+const monthlyCost = ref<number>(20000)
+const savings = ref<number>(200000)
 const earlyRepaymentYears = ref<number | null>(null)
 
 const yearsOptions = Array.from({ length: 35 }, (_, i) => ({ label: `${i + 1}年`, value: i + 1 }))
