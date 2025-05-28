@@ -10,4 +10,15 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
+  app: {
+    head: {
+      link: [
+        {
+          rel: 'icon',
+          type: 'image/svg+xml',
+          href: '/favicon.svg'
+        }
+      ]
+    }
+  }
 })
