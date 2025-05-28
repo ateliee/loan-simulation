@@ -23,5 +23,7 @@
   "terminal.integrated.defaultProfile.osx": "zsh",
   "workbench.editor.enablePreview": false,
   "workbench.editor.enablePreviewFromQuickOpen": false,
-  "workbench.startupEditor": "none"
+  "workbench.startupEditor": "none",
+  "files.autoSave": "onFocusChange",
+  "files.autoSaveDelay": 1000
 }

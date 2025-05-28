@@ -17,10 +17,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: npm
+          cache-dependency-path: nuxt/package-lock.json
       - run: npm ci
         working-directory: ./nuxt
       - run: npm run generate
         working-directory: ./nuxt
       - run: npm install -g firebase-tools
       - run: firebase deploy --only hosting --token ${{ secrets.FIREBASE_TOKEN }}
-        working-directory: ./nuxt
