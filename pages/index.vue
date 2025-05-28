@@ -14,10 +14,8 @@
           />
           <LoanSummary 
             :totalPayment="totalPayment" 
-            :monthlyCost="monthlyCost" 
             :savings="savings" 
             :totalSavings="totalSavings"
-            :totalSavingsAmount="totalSavingsAmount"
             :earlyRepaymentTotalPayment="earlyRepaymentTotalPayment"
             :earlyRepaymentTotalSavings="earlyRepaymentTotalSavings"
             :earlyRepaymentRemainingPrincipal="earlyRepaymentRemainingPrincipal"
@@ -25,7 +23,7 @@
         </div>
       </v-col>
       <v-col cols="12" md="8">
-        <LoanResult :resultTable="resultTable" :earlyRepaymentYears="earlyRepaymentYears" />
+        <LoanResult :resultTable="resultTable" :earlyRepaymentYears="earlyRepaymentYears" :savings="savings" />
       </v-col>
     </v-row>
   </v-container>
@@ -42,7 +40,7 @@ const years = ref(35)
 const rate = ref(0.8)
 const repaymentType = ref('principalInterest')
 const monthlyCost = ref(20000)
-const savings = ref(100000)
+const savings = ref(200000)
 const earlyRepaymentYears = ref<number | null>(null)
 
 const yearsOptions = Array.from({ length: 35 }, (_, i) => ({ label: `${i + 1}年`, value: i + 1 }))
@@ -100,11 +98,6 @@ const totalPayment = computed(() => resultTable.value.reduce((sum, row) => sum +
 const totalSavings = computed(() => {
   const totalMonths = years.value * 12
   return (savings.value * totalMonths) - totalPayment.value
-})
-
-const totalSavingsAmount = computed(() => {
-  const totalMonths = years.value * 12
-  return savings.value * totalMonths
 })
 
 const earlyRepaymentTotalPayment = computed(() => {

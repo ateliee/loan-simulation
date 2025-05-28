@@ -10,6 +10,7 @@
             <th class="text-end">諸経費</th>
             <th class="text-end">月々返済額</th>
             <th class="text-end">残元金</th>
+            <th class="text-end">貯蓄合計額</th>
           </tr>
         </thead>
         <tbody>
@@ -26,6 +27,7 @@
             <td class="text-end">{{ row.cost.toLocaleString() }}</td>
             <td class="text-end">{{ row.totalPayment.toLocaleString() }}</td>
             <td class="text-end">{{ row.remainingPrincipal.toLocaleString() }}</td>
+            <td class="text-end">{{ ((savings - row.totalPayment) * (idx + 1)).toLocaleString() }}</td>
           </tr>
         </tbody>
       </v-table>
@@ -37,6 +39,7 @@
 const props = defineProps({
   resultTable: { type: Array, required: true },
   earlyRepaymentYears: { type: Number, default: null },
+  savings: { type: Number, default: 0 },
 })
 </script>
 
