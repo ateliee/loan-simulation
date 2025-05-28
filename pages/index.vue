@@ -1,7 +1,7 @@
 <template>
   <v-container class="py-8" fluid>
     <v-row>
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="4" class="bg-grey-lighten-4 rounded-lg">
         <div style="position: sticky; top: 32px; z-index: 10; max-height: calc(100vh - 64px); overflow-y: auto;">
           <LoanForm
             v-model:principal="principal"
