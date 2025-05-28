@@ -6,13 +6,16 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./:/app
+      - ./nuxt:/app
       - /app/node_modules
     environment:
       - NODE_ENV=development
   preview:
     build: .
     command: npm run preview
+    volumes:
+      - ./nuxt:/app
+      - /app/node_modules
     ports:
       - "3001:3000"
     environment:

@@ -2,7 +2,7 @@
   "projects": {
     "default": "loan-simulation-7ab1a",
     "hosting": {
-      "public": ".output/public"
+      "public": "nuxt/.output/public"
     }
   }
-} 
+}
