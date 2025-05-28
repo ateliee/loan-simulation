@@ -57,6 +57,47 @@
           <v-btn value="principalOnly" class="flex-grow-1">元金均等返済</v-btn>
         </v-btn-toggle>
 
+        <div v-if="localRepaymentType === 'principalInterest'" class="mb-4">
+          <v-alert
+            color="info"
+            variant="tonal"
+            class="mb-2"
+          >
+            <div class="text-body-2">
+              <div class="mb-2"><strong>メリット</strong></div>
+              <ul class="mb-2">
+                <li>月々の返済額が一定(5年ルール/125%ルール)</li>
+                <li>返済初期の負担が比較的軽い</li>
+              </ul>
+              <div class="mb-2"><strong>デメリット</strong></div>
+              <ul>
+                <li>総返済額が元金均等返済より多くなる</li>
+                <li>返済後半になっても利息の負担が大きい</li>
+              </ul>
+            </div>
+          </v-alert>
+        </div>
+        <div v-if="localRepaymentType === 'principalOnly'" class="mb-4">
+          <v-alert
+            color="info"
+            variant="tonal"
+            class="mb-2"
+          >
+            <div class="text-body-2">
+              <div class="mb-2"><strong>メリット</strong></div>
+              <ul class="mb-2">
+                <li>総返済額が元利均等返済より少なくなる</li>
+                <li>返済期間が進むにつれて月々の返済額が減少</li>
+              </ul>
+              <div class="mb-2"><strong>デメリット</strong></div>
+              <ul>
+                <li>返済初期の月々の返済額が大きい</li>
+                <li>返済額が月ごとに変動するため家計管理が難しい</li>
+              </ul>
+            </div>
+          </v-alert>
+        </div>
+
         <v-expand-transition>
           <div v-show="showAdvancedOptions">
             <v-divider class="mb-4" />

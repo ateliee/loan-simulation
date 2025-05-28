@@ -2,8 +2,9 @@
   <v-card flat>
     <v-card-title class="text-h6">シミュレーション結果</v-card-title>
     <v-card-text>
+      <LoanChart :result-table="resultTable" />
       <div class="table-container">
-        <v-table density="compact" fixed-header height="calc(100vh - 200px)">
+        <v-table density="compact" fixed-header height="calc(100vh - 400px)">
           <thead>
             <tr>
               <th class="text-end">月</th>
@@ -39,7 +40,9 @@
 
 <script setup lang="ts">
 import type { PropType } from 'vue';
-import type { LoanResult } from '~/types/loan'
+import type { LoanResult } from '~/types/loan';
+import LoanChart from './LoanChart.vue';
+
 defineProps({
   resultTable: { type: Object as PropType<LoanResult[]>, required: true },
   earlyRepaymentYears: { type: Number, default: undefined },
@@ -57,4 +60,3 @@ defineProps({
   background-color: rgba(var(--v-theme-primary), 0.1);
 }
 </style>
-~/nuxt/types/loan
