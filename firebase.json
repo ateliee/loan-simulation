@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": ".output/public",
+    "public": "nuxt/.output/public",
     "ignore": [
       "firebase.json",
       "**/.*",
