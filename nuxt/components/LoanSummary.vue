@@ -15,7 +15,10 @@
           <div class="d-flex flex-column flex-wrap justify-center gap-4">
             <div class="text-subtitle-1">貯蓄合計額: <b>{{ earlyRepaymentTotalSavings?.toLocaleString() }}</b> 円</div>
             <div class="text-subtitle-1">ローン残高: <b>{{ earlyRepaymentRemainingPrincipal?.toLocaleString() }}</b> 円</div>
-            <div class="text-subtitle-1">残り残高: <b>{{ Math.max(0, earlyRepaymentRemainingPrincipal - earlyRepaymentTotalPayment)?.toLocaleString() }}</b> 円</div>
+            <template v-if="earlyResult !== undefined">
+              <div v-if="earlyResult > 0" class="text-subtitle-1">残り残高: <b>{{ earlyResult.toLocaleString() }}</b> 円</div>
+              <div v-else class="text-subtitle-1">残り貯蓄: <b>{{ (earlyResult * -1).toLocaleString() }}</b> 円</div>
+            </template>
           </div>
         </div>
       </v-expand-transition>
@@ -24,12 +27,24 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
   totalPayment: { type: Number, required: true },
   savings: { type: Number, required: true },
   totalSavings: { type: Number, required: true },
   earlyRepaymentTotalPayment: { type: Number, default: undefined },
   earlyRepaymentTotalSavings: { type: Number, default: undefined },
   earlyRepaymentRemainingPrincipal: { type: Number, default: undefined },
-})
+});
+
+const earlyResult = computed<number|undefined>(() => {
+  if (props.earlyRepaymentRemainingPrincipal === undefined) {
+    return undefined;
+  }
+  if (props.earlyRepaymentTotalSavings === undefined) {
+    return undefined;
+  }
+  return props.earlyRepaymentRemainingPrincipal - props.earlyRepaymentTotalSavings;
+});
 </script>
