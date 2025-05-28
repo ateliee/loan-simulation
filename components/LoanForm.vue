@@ -56,6 +56,31 @@
           <v-btn value="principalInterest" class="flex-grow-1">元利均等返済</v-btn>
           <v-btn value="principalOnly" class="flex-grow-1">元金均等返済</v-btn>
         </v-btn-toggle>
+
+        <v-expand-transition>
+          <div v-show="showAdvancedOptions">
+            <v-divider class="mb-4" />
+            <v-text-field
+              class="mb-4"
+              label="繰上げ返済完済期間（年）"
+              v-model.number="localEarlyRepaymentYears"
+              type="number"
+              min="1"
+              :max="localYears"
+              step="1"
+              prepend-inner-icon="mdi-calendar"
+            />
+          </div>
+        </v-expand-transition>
+
+        <v-btn
+          variant="text"
+          class="mt-2"
+          @click="showAdvancedOptions = !showAdvancedOptions"
+        >
+          {{ showAdvancedOptions ? '詳細を隠す' : '細かい条件入力' }}
+          <v-icon>{{ showAdvancedOptions ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+        </v-btn>
       </v-form>
     </v-card-text>
   </v-card>
@@ -71,10 +96,11 @@ const props = defineProps({
   repaymentType: { type: String, required: true },
   monthlyCost: { type: Number, required: true },
   savings: { type: Number, required: true },
+  earlyRepaymentYears: { type: Number, default: null },
 })
 const emit = defineEmits([
   'update:principal', 'update:years', 'update:rate', 'update:repaymentType',
-  'update:monthlyCost', 'update:savings',
+  'update:monthlyCost', 'update:savings', 'update:earlyRepaymentYears',
 ])
 
 const localPrincipal = ref(props.principal)
@@ -83,6 +109,8 @@ const localRate = ref(props.rate)
 const localRepaymentType = ref(props.repaymentType)
 const localMonthlyCost = ref(props.monthlyCost)
 const localSavings = ref(props.savings)
+const localEarlyRepaymentYears = ref(props.earlyRepaymentYears)
+const showAdvancedOptions = ref(false)
 
 const yearsOptions = computed(() => Array.from({ length: 35 }, (_, i) => ({ label: `${i + 1}年`, value: i + 1 })))
 
@@ -92,4 +120,5 @@ watch(localRate, v => emit('update:rate', v))
 watch(localRepaymentType, v => emit('update:repaymentType', v))
 watch(localMonthlyCost, v => emit('update:monthlyCost', v))
 watch(localSavings, v => emit('update:savings', v))
+watch(localEarlyRepaymentYears, v => emit('update:earlyRepaymentYears', v))
 </script> 

@@ -12,11 +12,20 @@
             v-model:savings="savings"
             v-model:earlyRepaymentYears="earlyRepaymentYears"
           />
-          <LoanSummary :totalPayment="totalPayment" :monthlyCost="monthlyCost" :savings="savings" :totalSavings="totalSavings" />
+          <LoanSummary 
+            :totalPayment="totalPayment" 
+            :monthlyCost="monthlyCost" 
+            :savings="savings" 
+            :totalSavings="totalSavings"
+            :totalSavingsAmount="totalSavingsAmount"
+            :earlyRepaymentTotalPayment="earlyRepaymentTotalPayment"
+            :earlyRepaymentTotalSavings="earlyRepaymentTotalSavings"
+            :earlyRepaymentRemainingPrincipal="earlyRepaymentRemainingPrincipal"
+          />
         </div>
       </v-col>
       <v-col cols="12" md="8">
-        <LoanResult :resultTable="resultTable" />
+        <LoanResult :resultTable="resultTable" :earlyRepaymentYears="earlyRepaymentYears" />
       </v-col>
     </v-row>
   </v-container>
@@ -30,9 +39,9 @@ import LoanSummary from '~/components/LoanSummary.vue'
 
 const principal = ref(30000000)
 const years = ref(35)
-const rate = ref(1.0)
+const rate = ref(0.8)
 const repaymentType = ref('principalInterest')
-const monthlyCost = ref(0)
+const monthlyCost = ref(20000)
 const savings = ref(100000)
 const earlyRepaymentYears = ref<number | null>(null)
 
@@ -93,6 +102,11 @@ const totalSavings = computed(() => {
   return (savings.value * totalMonths) - totalPayment.value
 })
 
+const totalSavingsAmount = computed(() => {
+  const totalMonths = years.value * 12
+  return savings.value * totalMonths
+})
+
 const earlyRepaymentTotalPayment = computed(() => {
   if (!earlyRepaymentYears.value) return null
   const months = earlyRepaymentYears.value * 12
@@ -103,6 +117,12 @@ const earlyRepaymentTotalSavings = computed(() => {
   if (!earlyRepaymentYears.value) return null
   const months = earlyRepaymentYears.value * 12
   return (savings.value * months) - (earlyRepaymentTotalPayment.value || 0)
+})
+
+const earlyRepaymentRemainingPrincipal = computed(() => {
+  if (!earlyRepaymentYears.value) return null
+  const months = earlyRepaymentYears.value * 12
+  return resultTable.value[months - 1]?.remainingPrincipal || 0
 })
 </script>
 
