@@ -8,7 +8,7 @@
       </div>
 
       <v-expand-transition>
-        <div v-if="earlyRepaymentTotalPayment !== null" class="mt-6 text-center">
+        <div v-if="earlyRepaymentTotalPayment" class="mt-6 text-center">
           <v-divider class="mb-4" />
           <div class="text-h6 font-weight-bold mb-2">繰上げ返済時の合計返済額（諸経費込）</div>
           <div class="text-h4 font-weight-bold mb-4">{{ earlyRepaymentTotalPayment?.toLocaleString() }} 円</div>
