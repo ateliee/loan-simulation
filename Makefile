@@ -27,9 +27,6 @@ format:
 test:
 	docker compose exec $(DEV_CONTAINER) sh -c "echo '(テストコマンドをここに追加)'"
 
-deploy:
-	docker compose exec $(DEV_CONTAINER) npx firebase deploy --only hosting
-
 logs:
 	docker compose logs -f $(DEV_CONTAINER)
 

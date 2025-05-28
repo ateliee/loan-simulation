@@ -20,22 +20,17 @@
 | make lint          | ESLintによるコードチェック           |
 | make format        | Prettierによるコード整形             |
 | make test          | テスト実行（※テスト追加時に編集）    |
-| make docker-up     | Docker Composeで開発/本番起動        |
-| make docker-down   | Docker Compose停止                   |
-| make deploy        | Firebase Hostingへデプロイ           |
+| make up            | Docker Composeで開発/本番起動        |
+| make down          | Docker Compose停止                   |
 
 ---
-
-各コマンドは `loan-simulation-app` ディレクトリで実行してください。
-
 
 `http://localhost:3000` でアプリにアクセスできます。
 
 ## Firebase Hostingへのデプロイ（GitHub Actions利用）
 
-1. Firebaseプロジェクトを作成し、`firebase.json`と`.firebaserc`を用意してください。
-2. GitHubリポジトリのSecreasに `FIREBASE_TOKEN` を登録してください。
-3. `main`ブランチにpushすると、自動的にSPAビルド＆Firebase Hostingへデプロイされます。
+1. GitHubリポジトリのSecreasに `FIREBASE_TOKEN` を登録してください。
+2. `main`ブランチにpushすると、自動的にSPAビルド＆Firebase Hostingへデプロイされます。
 
 ---
 
