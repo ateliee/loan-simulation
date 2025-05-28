@@ -34,4 +34,4 @@ logs:
 	docker compose logs -f $(DEV_CONTAINER)
 
 ssh:
-	docker compose exec $(DEV_CONTAINER) sh 
+	docker compose exec $(DEV_CONTAINER) sh

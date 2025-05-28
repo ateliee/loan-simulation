@@ -15,8 +15,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr 
-              v-for="(row, idx) in resultTable" 
+            <tr
+              v-for="(row, idx) in resultTable"
               :key="idx"
               :class="earlyRepaymentYears && idx === earlyRepaymentYears * 12 - 1 ? 'highlight-row' : ''"
             >
@@ -38,9 +38,11 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  resultTable: { type: Array, required: true },
-  earlyRepaymentYears: { type: Number, default: null },
+import type { PropType } from 'vue';
+import type { LoanResult } from '~/types/loan'
+defineProps({
+  resultTable: { type: Object as PropType<LoanResult[]>, required: true },
+  earlyRepaymentYears: { type: Number, default: undefined },
   savings: { type: Number, default: 0 },
 })
 </script>
@@ -51,13 +53,7 @@ const props = defineProps({
   overflow: hidden;
 }
 
-:deep(.v-table) {
-  .v-table__wrapper {
-    overflow-y: auto;
-  }
-}
-
 .highlight-row td {
   background-color: rgba(var(--v-theme-primary), 0.1);
 }
-</style> 
+</style>

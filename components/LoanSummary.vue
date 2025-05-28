@@ -24,12 +24,12 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   totalPayment: { type: Number, required: true },
   savings: { type: Number, required: true },
   totalSavings: { type: Number, required: true },
-  earlyRepaymentTotalPayment: { type: Number, default: null },
-  earlyRepaymentTotalSavings: { type: Number, default: null },
-  earlyRepaymentRemainingPrincipal: { type: Number, default: null },
+  earlyRepaymentTotalPayment: { type: Number, default: undefined },
+  earlyRepaymentTotalSavings: { type: Number, default: undefined },
+  earlyRepaymentRemainingPrincipal: { type: Number, default: undefined },
 })
-</script> 
+</script>

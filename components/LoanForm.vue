@@ -4,44 +4,44 @@
     <v-card-text>
       <v-form>
         <v-text-field
+          v-model.number="localPrincipal"
           class="mb-4"
           label="借入金額（円）"
-          v-model.number="localPrincipal"
           type="number"
           min="1"
           step="1"
           prepend-inner-icon="mdi-currency-jpy"
         />
         <v-select
+          v-model.number="localYears"
           class="mb-4"
           label="借入期間（年）"
           :items="yearsOptions"
-          v-model.number="localYears"
           item-title="label"
           item-value="value"
         />
         <v-text-field
+          v-model.number="localRate"
           class="mb-4"
           label="金利（年利 %）"
-          v-model.number="localRate"
           type="number"
           min="0"
           step="0.01"
           prepend-inner-icon="mdi-percent"
         />
         <v-text-field
+          v-model.number="localMonthlyCost"
           class="mb-4"
           label="月々の諸経費（円）"
-          v-model.number="localMonthlyCost"
           type="number"
           min="0"
           step="1"
           prepend-inner-icon="mdi-cash"
         />
         <v-text-field
+          v-model.number="localSavings"
           class="mb-4"
           label="ローン返済含めた貯蓄（円）"
-          v-model.number="localSavings"
           type="number"
           min="0"
           step="1"
@@ -61,9 +61,9 @@
           <div v-show="showAdvancedOptions">
             <v-divider class="mb-4" />
             <v-text-field
+              v-model.number="localEarlyRepaymentYears"
               class="mb-4"
               label="繰上げ返済完済期間（年）"
-              v-model.number="localEarlyRepaymentYears"
               type="number"
               min="1"
               :max="localYears"
@@ -96,7 +96,7 @@ const props = defineProps({
   repaymentType: { type: String, required: true },
   monthlyCost: { type: Number, required: true },
   savings: { type: Number, required: true },
-  earlyRepaymentYears: { type: Number, default: null },
+  earlyRepaymentYears: { type: Number, default: undefined },
 })
 const emit = defineEmits([
   'update:principal', 'update:years', 'update:rate', 'update:repaymentType',
@@ -121,4 +121,4 @@ watch(localRepaymentType, v => emit('update:repaymentType', v))
 watch(localMonthlyCost, v => emit('update:monthlyCost', v))
 watch(localSavings, v => emit('update:savings', v))
 watch(localEarlyRepaymentYears, v => emit('update:earlyRepaymentYears', v))
-</script> 
+</script>
