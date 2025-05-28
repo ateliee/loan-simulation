@@ -34,7 +34,7 @@
 ## Firebase Hostingへのデプロイ（GitHub Actions利用）
 
 1. Firebaseプロジェクトを作成し、`firebase.json`と`.firebaserc`を用意してください。
-2. GitHubリポジトリのSecretsに `FIREBASE_TOKEN` を登録してください。
+2. GitHubリポジトリのSecreasに `FIREBASE_TOKEN` を登録してください。
 3. `main`ブランチにpushすると、自動的にSPAビルド＆Firebase Hostingへデプロイされます。
 
 ---

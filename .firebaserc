@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "your-project-id"
+    "default": "loan-simulation-7ab1a",
+    "hosting": {
+      "public": ".output/public"
+    }
   }
 } 
