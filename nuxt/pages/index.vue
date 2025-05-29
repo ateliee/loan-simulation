@@ -35,9 +35,9 @@ import { useHead } from '#app'
 import type { LoanResult } from '~/types/loan'
 
 useHead({
-  title: '元金返済・元利返済シミュレーション',
+  title: '元金均等・元金均等返済シミュレーション',
   meta: [
-    { name: 'description', content: '住宅ローンのシミュレーションをリアルタイムで行えます。元金返済・元利返済を選択で、老後の資金計算もできます。' }
+    { name: 'description', content: '住宅ローンのシミュレーションをリアルタイムで行えます。借入金額、借入期間、金利、返済方式（元利均等・元金均等）を入力で、老後の資金計算もできます。' }
   ],
 })
 const principal = ref<number>(60000000)
