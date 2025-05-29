@@ -7,3 +7,13 @@
     <NuxtPage />
   </v-app>
 </template>
+<script lang="ts" setup>
+import { useHead } from '#app'
+
+useHead({
+  titleTemplate: (titleChunk) => {
+    const baseTitle = '住宅ローンシミュレーション'
+    return titleChunk && baseTitle !== titleChunk ? `${titleChunk} - ${baseTitle}` : baseTitle;
+  },
+})
+</script>
