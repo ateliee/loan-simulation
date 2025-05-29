@@ -31,10 +31,14 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useHead } from '#app'
 import type { LoanResult } from '~/types/loan'
 
 useHead({
-  title: '住宅ローン元金返済・元利返済シミュレーション',
+  title: '元金返済・元利返済シミュレーション',
+  meta: [
+    { name: 'description', content: '住宅ローンのシミュレーションをリアルタイムで行えます。元金返済・元利返済を選択で、老後の資金計算もできます。' }
+  ],
 })
 const principal = ref<number>(60000000)
 const years = ref<number>(35)
