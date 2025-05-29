@@ -12,6 +12,10 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      title: '住宅ローンシミュレーション',
+      htmlAttrs: {
+        lang: 'ja',
+      },
       link: [
         {
           rel: 'icon',

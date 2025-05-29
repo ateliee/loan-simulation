@@ -33,6 +33,9 @@
 import { ref, computed } from 'vue'
 import type { LoanResult } from '~/types/loan'
 
+useHead({
+  title: '住宅ローン元金返済・元利返済シミュレーション',
+})
 const principal = ref<number>(60000000)
 const years = ref<number>(35)
 const rate = ref<number>(0.8)
