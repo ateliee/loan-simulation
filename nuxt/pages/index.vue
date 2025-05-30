@@ -43,7 +43,7 @@ import type { LoanResult } from '~/types/loan'
 definePageMeta({
   layout: 'default',
   layoutProps: {
-    title: 'ローンシミュレーション',
+    title: '住宅ローンシミュレーション',
     description: '住宅ローンのシミュレーションをリアルタイムで行えます。借入金額、借入期間、金利、返済方式（元利均等・元金均等）を入力で、老後の資金計算もできます。',
   },
 })

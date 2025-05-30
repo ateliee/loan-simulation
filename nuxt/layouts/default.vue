@@ -6,7 +6,7 @@
     <v-app-bar>
       <v-app-bar-title>{{ pageTitle }}</v-app-bar-title>
       <v-spacer />
-      <v-btn to="/" class="mx-2">ローンシミュレーション</v-btn>
+      <v-btn to="/" class="mx-2">住宅ローンシミュレーション</v-btn>
       <v-btn to="/registration-tax" class="mx-2">登録免許税シミュレーション</v-btn>
       <v-btn to="/real-estate-fee" class="mx-2">仲介手数料シミュレーション</v-btn>
     </v-app-bar>
@@ -14,6 +14,11 @@
     <v-main>
       <slot />
     </v-main>
+    <v-footer app class="d-flex justify-center align-center py-2">
+      <div class="text-body-2 text-grey">
+        &copy; {{ new Date().getFullYear() }} <a href="https://ateliee.com" target="_blank">ateliee.com</a> All rights reserved.
+      </div>
+    </v-footer>
   </v-app>
 </template>
 
