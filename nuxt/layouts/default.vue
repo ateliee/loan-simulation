@@ -9,6 +9,7 @@
       <v-btn to="/" class="mx-2">住宅ローンシミュレーション</v-btn>
       <v-btn to="/registration-tax" class="mx-2">登録免許税シミュレーション</v-btn>
       <v-btn to="/real-estate-fee" class="mx-2">仲介手数料シミュレーション</v-btn>
+      <v-btn to="/interest-rates" variant="text">銀行金利推移</v-btn>
     </v-app-bar>
     <NuxtRouteAnnouncer />
     <v-main>
