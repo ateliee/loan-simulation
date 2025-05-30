@@ -63,7 +63,7 @@ const propertyInfo = ref({
 const propertyValue = ref({
   landValue: 20000000,
   buildingValue: 10000000,
-  mortgageAmount: 0
+  mortgageAmount: 60000000,
 })
 
 const propertyCondition = ref({
