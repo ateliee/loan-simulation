@@ -1,19 +1,37 @@
 <template>
-  <v-app>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KM4526B3" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <NuxtRouteAnnouncer />
+  <NuxtLayout>
     <NuxtPage />
-  </v-app>
+  </NuxtLayout>
 </template>
-<script lang="ts" setup>
-import { useHead } from '#app'
 
-useHead({
-  titleTemplate: (titleChunk) => {
-    const baseTitle = '住宅ローンシミュレーション'
-    return titleChunk && baseTitle !== titleChunk ? `${titleChunk} - ${baseTitle}` : baseTitle;
+<script setup lang="ts">
+import { watch } from 'vue'
+import type { PageMeta } from '#app'
+
+const route = useRoute()
+
+const updateHead = () => {
+  useHead({
+    title: (route.meta as PageMeta).layoutProps?.title,
+    meta: [
+      { name: 'description', content: (route.meta as PageMeta).layoutProps?.description }
+    ],
+    titleTemplate: (titleChunk?: string) => {
+      const baseTitle = '住宅シミュレーション'
+      return titleChunk && baseTitle !== titleChunk ? `${titleChunk} - ${baseTitle}` : baseTitle;
+    },
+  })
+}
+
+// 初期表示時
+updateHead()
+
+// ルート変更時
+watch(
+  () => route.meta,
+  () => {
+    updateHead()
   },
-})
+  { deep: true }
+)
 </script>

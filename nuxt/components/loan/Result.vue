@@ -43,7 +43,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue';
 import type { LoanResult } from '~/types/loan';
-import LoanChart from './LoanChart.vue';
+import LoanChart from './Chart.vue';
 
 defineProps({
   resultTable: { type: Object as PropType<LoanResult[]>, required: true },
