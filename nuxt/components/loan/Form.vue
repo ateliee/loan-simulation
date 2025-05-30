@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="text-h6">住宅ローンシミュレーション</v-card-title>
+    <v-card-title class="text-h6">ローン情報</v-card-title>
     <v-card-text>
       <v-form>
         <v-text-field
