@@ -46,8 +46,17 @@ import type { LoanResult } from '~/types/loan';
 import LoanChart from './Chart.vue';
 
 defineProps({
+  /** 月々の返済額（円） */
+  monthlyPayment: { type: Number, required: true },
+  /** 総返済額（円） */
+  totalPayment: { type: Number, required: true },
+  /** 支払利息（円） */
+  totalInterest: { type: Number, required: true },
+  /** 返済計画表のデータ */
   resultTable: { type: Object as PropType<LoanResult[]>, required: true },
+  /** 繰上げ返済完済期間（年） */
   earlyRepaymentYears: { type: Number, default: undefined },
+  /** ローン返済含めた貯蓄（円） */
   savings: { type: Number, default: 0 },
 })
 </script>

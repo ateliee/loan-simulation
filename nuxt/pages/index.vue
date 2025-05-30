@@ -23,7 +23,14 @@
         </div>
       </v-col>
       <v-col cols="12" md="8">
-        <LoanResult :result-table="resultTable" :early-repayment-years="earlyRepaymentYears" :savings="savings" />
+        <LoanResult
+          :monthly-payment="monthlyPayment"
+          :total-payment="totalPayment"
+          :total-interest="totalInterest"
+          :result-table="resultTable"
+          :early-repayment-years="earlyRepaymentYears"
+          :savings="savings"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -127,6 +134,25 @@ const earlyRepaymentRemainingPrincipal = computed<number|undefined>(() => {
   if (!earlyRepaymentYears.value) return undefined
   const months = earlyRepaymentYears.value * 12
   return resultTable.value[months - 1]?.remainingPrincipal || 0
+})
+
+// 月々の返済額を計算
+const monthlyPayment = computed(() => {
+  if (repaymentType.value === 'principalInterest') {
+    const monthlyRate = rate.value / 100 / 12
+    const numerator = principal.value * monthlyRate * Math.pow(1 + monthlyRate, months.value)
+    const denominator = Math.pow(1 + monthlyRate, months.value) - 1
+    return Math.floor(numerator / denominator)
+  } else {
+    const monthlyPrincipal = Math.floor(principal.value / months.value)
+    const firstMonthInterest = Math.floor(principal.value * (rate.value / 100 / 12))
+    return monthlyPrincipal + firstMonthInterest
+  }
+})
+
+// 総利息を計算
+const totalInterest = computed(() => {
+  return resultTable.value.reduce((sum, row) => sum + row.interest, 0)
 })
 </script>
 

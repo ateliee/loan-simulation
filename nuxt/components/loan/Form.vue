@@ -131,12 +131,19 @@
 import { ref, watch, computed } from 'vue'
 
 const props = defineProps({
+  /** 借入金額（円） */
   principal: { type: Number, required: true },
+  /** 借入期間（年） */
   years: { type: Number, required: true },
+  /** 金利（年利%） */
   rate: { type: Number, required: true },
+  /** 返済方式（元利均等・元金均等） */
   repaymentType: { type: String, required: true },
+  /** 月々の諸経費（円） */
   monthlyCost: { type: Number, required: true },
+  /** ローン返済含めた貯蓄（円） */
   savings: { type: Number, required: true },
+  /** 繰上げ返済完済期間（年） */
   earlyRepaymentYears: { type: Number, default: undefined },
 })
 const emit = defineEmits([
