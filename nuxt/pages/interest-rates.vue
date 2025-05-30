@@ -25,8 +25,11 @@ import { ref } from 'vue'
 import { useInterestRateChart } from '~/composables/useInterestRateChart'
 
 definePageMeta({
-  title: '金利推移',
-  description: '住宅ローンの変動金利と固定金利の推移をグラフで確認できます。'
+  layout: 'default',
+  layoutProps: {
+    title: '金利推移',
+    description: '住宅ローンの変動金利と固定金利の推移をグラフで確認できます。',
+  },
 })
 
 const { variableStoreRateOption, variableDiscountOption, variableAppliedRateOption, fixedStoreRateOption, fixedDiscountOption, fixedAppliedRateOption } = useInterestRateChart()
