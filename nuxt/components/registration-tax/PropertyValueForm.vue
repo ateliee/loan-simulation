@@ -50,23 +50,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-
-const props = defineProps<{
-  modelValue: {
-    landValue: number
-    buildingValue: number
-    mortgageAmount: number
-  }
-}>()
+import { watch } from 'vue'
 
 const emit = defineEmits<{
   'update:modelValue': [value: { landValue: number; buildingValue: number; mortgageAmount: number }]
 }>()
 
-const landValue = ref(props.modelValue.landValue)
-const buildingValue = ref(props.modelValue.buildingValue)
-const mortgageAmount = ref(props.modelValue.mortgageAmount)
+/** 土地の評価額（円） */
+const landValue = defineModel<number>('landValue', { required: true })
+/** 建物の評価額（円） */
+const buildingValue = defineModel<number>('buildingValue', { required: true })
+/** 住宅ローン借入金額（円） */
+const mortgageAmount = defineModel<number>('mortgageAmount', { required: true })
 
 watch([landValue, buildingValue, mortgageAmount], ([newLand, newBuilding, newMortgage]) => {
   emit('update:modelValue', {

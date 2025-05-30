@@ -246,12 +246,19 @@ const MIN_NOTARY_FEE = 50000 // 司法書士報酬の最低額
 const MAX_NOTARY_FEE = 70000 // 司法書士報酬の最高額
 
 const props = defineProps<{
+  /** 物件種別（住宅・店舗・事務所） */
   propertyType: PropertyType
+  /** 物件状態（新築・中古） */
   propertyStatus: PropertyStatus
+  /** 初めての住宅取得かどうか */
   isFirstTime: boolean
+  /** 省エネ住宅かどうか */
   isEcoFriendly: boolean
+  /** 土地の評価額 */
   landValue: number
+  /** 建物の評価額 */
   buildingValue: number
+  /** 住宅ローン借入金額（抵当権設定登記の有無を判定するために使用） */
   mortgageAmount: number
 }>()
 

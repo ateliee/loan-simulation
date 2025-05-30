@@ -28,6 +28,7 @@ use([
 ])
 
 const props = defineProps({
+  /** 返済計画表のデータ */
   resultTable: { type: Object as PropType<LoanResult[]>, required: true },
 })
 

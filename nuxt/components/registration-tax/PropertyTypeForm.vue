@@ -30,21 +30,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-
-const props = defineProps<{
-  modelValue: {
-    propertyType: string
-    propertyStatus: string
-  }
-}>()
-
-const emit = defineEmits<{
-  'update:modelValue': [value: { propertyType: string; propertyStatus: string }]
-}>()
-
-const propertyType = ref(props.modelValue.propertyType)
-const propertyStatus = ref(props.modelValue.propertyStatus)
+const propertyType = defineModel<string>('propertyType', { required: true })
+const propertyStatus = defineModel<string>('propertyStatus', { required: true })
 
 const propertyTypes = [
   { title: '住宅（一戸建て・マンション）', value: 'residential' },
@@ -56,11 +43,4 @@ const propertyStatuses = [
   { title: '中古物件（既存の建物）', value: 'used' },
   { title: '新築物件（新しく建てた建物）', value: 'new' },
 ]
-
-watch([propertyType, propertyStatus], ([newType, newStatus]) => {
-  emit('update:modelValue', {
-    propertyType: newType,
-    propertyStatus: newStatus
-  })
-})
 </script>

@@ -6,10 +6,13 @@
           <v-card-text>
             <v-form>
               <RegistrationTaxPropertyTypeForm
-                v-model="propertyInfo"
+                v-model:property-type="propertyInfo.propertyType"
+                v-model:property-status="propertyInfo.propertyStatus"
               />
               <RegistrationTaxPropertyValueForm
-                v-model="propertyValue"
+                v-model:land-value="propertyValue.landValue"
+                v-model:building-value="propertyValue.buildingValue"
+                v-model:mortgage-amount="propertyValue.mortgageAmount"
               />
               <RegistrationTaxPropertyConditionForm
                 v-model="propertyCondition"
