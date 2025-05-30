@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: '住宅ローンシミュレーション',
+      title: '住宅関連シミュレーション',
       htmlAttrs: {
         lang: 'ja',
       },
