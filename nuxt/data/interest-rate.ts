@@ -139,12 +139,8 @@ export const INTEREST_RATE_DATA: InterestRateData[] = [
       { date: "2009/05", store: 2.475, discount: 1.90, applied: 0.575 },  // リーマン後の利下げで店頭2.475%に減少:contentReference[oaicite:2]{index=2}。優遇▲1.90%で適用金利0.575%に低下。
       { date: "2016/02", store: 2.475, discount: 1.90, applied: 0.575 },  // マイナス金利導入後も店頭金利2.475%で不変:contentReference[oaicite:3]{index=3}。優遇幅は最大▲1.9%程度、実質0.5～0.6%台。
       { date: "2023/01", store: 2.475, discount: 1.90, applied: 0.575 },   // 低金利長期化で店頭金利は2009年以降2.475%据置:contentReference[oaicite:4]{index=4}。適用金利0.5～0.6%前後で推移。
-      {
-        date: "2025/05",
-        store: 2.875,
-        discount: 2.28,
-        applied: 0.595
-      },
+      { date: "2025/05", store: 2.875, discount: 2.28, applied: 0.595 },
+      { date: "2025/06", store: 2.875, discount: 2.28, applied: 0.595 }
     ],
     fixed: [
       // 当初固定金利10年型（新規借入時の固定期間金利）。
@@ -154,12 +150,8 @@ export const INTEREST_RATE_DATA: InterestRateData[] = [
       { date: "2016/08", store: 1.50, discount: 0.70, applied: 0.80 },   // マイナス金利で長期金利史上最低水準。店頭表示1～2%、優遇▲0.7%程度で実質0.8%台に低下。
       { date: "2023/01", store: 3.00, discount: 1.40, applied: 1.60 },   // 長期金利0%近辺で低位安定。店頭約3%、優遇▲1.4%で適用約1.6%。
       { date: "2025/01", store: 4.30, discount: 2.67, applied: 1.63 },    // 金利上昇局面で店頭表示4%台後半に上昇。優遇後の適用金利1.63%:contentReference[oaicite:5]{index=5}。
-      {
-        date: "2025/05",
-        store: 4.61,
-        discount: 2.78,
-        applied: 1.83
-      }
+      { date: "2025/05", store: 4.61, discount: 2.78, applied: 1.83 },
+      { date: "2025/06", store: 4.61, discount: 2.78, applied: 1.83 }
     ]
   },
   {
@@ -173,12 +165,8 @@ export const INTEREST_RATE_DATA: InterestRateData[] = [
       { date: "2016/02", store: 2.475, discount: 1.50, applied: 0.975 },  // 優遇拡大（▲1.5%程度）で実質1%を下回る。
       { date: "2023/01", store: 2.475, discount: 1.55, applied: 0.925 },  // 優遇▲1.55%。適用金利約0.925%:contentReference[oaicite:7]{index=7}。
       { date: "2025/01", store: 2.875, discount: 1.95, applied: 0.925 },  // 短期金利上昇で店頭2.875%に。優遇後0.925%:contentReference[oaicite:8]{index=8}（主要プラン）。
-      {
-        date: "2025/05",
-        store: 2.875,
-        discount: 2.280,
-        applied: 0.595
-      }
+      { date: "2025/05", store: 2.875, discount: 2.280, applied: 0.595 },
+      { date: "2025/06", store: 2.875, discount: 2.280, applied: 0.595 }
     ],
     fixed: [
       // 当初固定金利10年型。
@@ -188,12 +176,8 @@ export const INTEREST_RATE_DATA: InterestRateData[] = [
       { date: "2016/08", store: 2.00, discount: 0.80, applied: 1.20 },   // 店頭金利約2%。優遇拡大で適用1%台前半。
       { date: "2023/01", store: 4.50, discount: 1.95, applied: 2.55 },   // 店頭表示金利4.50%、最優遇適用後2.55%（新規/Web申込）:contentReference[oaicite:10]{index=10}。
       { date: "2025/01", store: 4.50, discount: 1.95, applied: 2.55 },   // 2025年時点も店頭約4.5%、適用金利2.55%で推移:contentReference[oaicite:11]{index=11}。
-      {
-        date: "2025/05",
-        store: 4.500,
-        discount: 2.500,
-        applied: 2.000
-      }
+      { date: "2025/05", store: 4.500, discount: 2.500, applied: 2.000 },
+      { date: "2025/06", store: 4.500, discount: 2.500, applied: 2.000 }
     ]
   },
   {
@@ -207,12 +191,7 @@ export const INTEREST_RATE_DATA: InterestRateData[] = [
       { date: "2016/02", store: 2.475, discount: 1.90, applied: 0.575 },  // 優遇▲1.9%。適用金利0.525%～0.975%の範囲:contentReference[oaicite:13]{index=13}。
       { date: "2023/01", store: 2.475, discount: 1.95, applied: 0.525 },  // 優遇拡大（▲1.95%程度）。ネット専用ローンで0.525%～適用:contentReference[oaicite:14]{index=14}。
       { date: "2025/01", store: 2.625, discount: 2.10, applied: 0.525 },   // 政策金利見直しで店頭2.625%に上昇も、優遇▲2.10%で実質0.525%を維持:contentReference[oaicite:15]{index=15}。
-      {
-        date: "2025/06",
-        store: 2.875, // 店頭金利は明示されていないため、一般的な数値を仮定
-        discount: 2.35,
-        applied: 0.525
-      }
+      { date: "2025/06", store: 2.875, discount: 2.35, applied: 0.525 }
     ],
     fixed: [
       // 当初固定金利10年型。
@@ -222,12 +201,7 @@ export const INTEREST_RATE_DATA: InterestRateData[] = [
       { date: "2016/08", store: 1.70, discount: 0.10, applied: 1.60 },   // 店頭表示1.70%、僅かな優遇で1.60%に:contentReference[oaicite:16]{index=16}（保証料一部前払い型は+0.05%）。
       { date: "2023/01", store: 3.70, discount: 2.10, applied: 1.60 },   // 店頭表示金利3.70%、優遇▲2.10%で適用1.60%:contentReference[oaicite:17]{index=17}。
       { date: "2025/01", store: 4.00, discount: 2.40, applied: 1.60 },   // 店頭約4.0%、優遇▲2.40%で適用金利1.60%（ネット専用ローンの場合）:contentReference[oaicite:18]{index=18}。
-      {
-        date: "2025/06",
-        store: 4.24, // 店頭金利は明示されていないため、一般的な数値を仮定
-        discount: 2.44,
-        applied: 1.80
-      }
+      { date: "2025/06", store: 4.24, discount: 2.44, applied: 1.80 }
     ]
   },
   {
@@ -241,18 +215,9 @@ export const INTEREST_RATE_DATA: InterestRateData[] = [
       { date: "2009/10", store: 2.475, discount: 1.70, applied: 0.775 },  // 店頭2.475%、優遇▲1.7%。
       { date: "2016/02", store: 2.475, discount: 1.90, applied: 0.575 },  // 優遇▲1.9%。実質0.5～0.6%台。
       { date: "2023/01", store: 2.475, discount: 1.90, applied: 0.575 },  // 店頭金利不変:contentReference[oaicite:19]{index=19}、最優遇適用で0.575%程度。
-      {
-        date: "2025/01",
-        store: 2.875,
-        discount: 2.235,
-        applied: 0.640
-      },
-      {
-        date: "2025/05",
-        store: 2.875,
-        discount: 2.235,
-        applied: 0.640
-      }
+      { date: "2025/01", store: 2.875, discount: 2.235, applied: 0.640 },
+      { date: "2025/05", store: 2.875, discount: 2.235, applied: 0.640 },
+      { date: "2025/06", store: 2.875, discount: 2.235, applied: 0.640 }
     ],
     fixed: [
       // 当初固定金利10年型。
@@ -262,18 +227,9 @@ export const INTEREST_RATE_DATA: InterestRateData[] = [
       { date: "2016/08", store: 1.20, discount: 0.40, applied: 0.80 },   // 店頭表示約1.2%。優遇▲0.4%で適用0.8%台。
       { date: "2020/01", store: 2.50, discount: 1.50, applied: 1.00 },   // 店頭表示約2.5%。優遇▲1.5%で適用約1.0%。
       { date: "2023/01", store: 3.60, discount: 2.00, applied: 1.60 },   // 店頭表示約3.6%。優遇▲2.0%で適用1.6%前後。
-      {
-        date: "2025/01",
-        store: 4.290,
-        discount: 2.235,
-        applied: 2.055
-      },
-      {
-        date: "2025/05",
-        store: 4.290,
-        discount: 2.235,
-        applied: 2.055
-      }
+      { date: "2025/01", store: 4.290, discount: 2.235, applied: 2.055 },
+      { date: "2025/05", store: 4.290, discount: 2.235, applied: 2.055 },
+      { date: "2025/06", store: 4.290, discount: 2.235, applied: 2.055 }
     ]
   },
   {
@@ -284,24 +240,16 @@ export const INTEREST_RATE_DATA: InterestRateData[] = [
       { date: "2019/07", store: 2.475, discount: 2.000, applied: 0.475 }, // 取扱開始時、店頭2.475%、優遇▲2.0%で適用0.475%程度。
       { date: "2020/12", store: 2.475, discount: 2.045, applied: 0.430 }, // 業界最低水準を狙い優遇拡大、実質0.4%台前半に低下。
       { date: "2023/10", store: 2.430, discount: 1.965, applied: 0.465 }, // 店頭表示金利2.430%、適用金利0.465%:contentReference[oaicite:21]{index=21}（優遇▲1.965%）。
-      {
-        date: "2025/05",
-        store: 2.430,
-        discount: 1.965,
-        applied: 0.465
-      }
+      { date: "2025/05", store: 2.430, discount: 1.965, applied: 0.465 },
+      { date: "2025/06", store: 2.430, discount: 1.965, applied: 0.465 }
     ],
     fixed: [
       // 当初固定金利10年型（住信SBIネット銀行提携ローン商品）。
       { date: "2019/07", store: 1.00, discount: 0.00, applied: 1.00 },   // サービス開始当初の10年固定金利約1.0%で提供。
       { date: "2021/01", store: 0.85, discount: 0.00, applied: 0.85 },   // 長期金利低位安定で0.8%台前半の低金利水準。
       { date: "2023/01", store: 1.30, discount: 0.00, applied: 1.30 },   // 金利上昇により10年固定約1.3%に上昇。
-      {
-        date: "2025/05",
-        store: 1.30,
-        discount: 0.00,
-        applied: 1.30
-      }
+      { date: "2025/05", store: 1.30, discount: 0.00, applied: 1.30 },
+      { date: "2025/06", store: 1.30, discount: 0.00, applied: 1.30 }
     ]
   },
   {
@@ -313,24 +261,16 @@ export const INTEREST_RATE_DATA: InterestRateData[] = [
       { date: "2010/04", store: 2.475, discount: 1.80, applied: 0.675 }, // 実質金利0.7%近辺まで低下。
       { date: "2016/02", store: 2.475, discount: 2.00, applied: 0.475 }, // 優遇▲2.0%超。適用金利0.5%割れ（水準トップクラス）。
       { date: "2023/01", store: 2.475, discount: 2.10, applied: 0.375 }, // 店頭金利2.475%、最優遇▲2.10%で実質0.375%程度に。
-      {
-        date: "2025/05",
-        store: 3.275,
-        discount: 2.627,
-        applied: 0.648
-      }
+      { date: "2025/05", store: 3.275, discount: 2.627, applied: 0.648 },
+      { date: "2025/06", store: 3.275, discount: 2.627, applied: 0.648 }
     ],
     fixed: [
       // 当初固定金利10年型。
       { date: "2008/04", store: 2.80, discount: 0.00, applied: 2.80 },   // 開始当初、10年固定金利約2.8%。
       { date: "2016/08", store: 0.90, discount: 0.00, applied: 0.90 },   // 長期金利低下で史上最低水準の0.90%。
       { date: "2023/01", store: 1.30, discount: 0.00, applied: 1.30 },   // 足元の金利上昇で1.3%前後に上昇。
-      {
-        date: "2025/05",
-        store: 3.690,
-        discount: 1.951,
-        applied: 1.739
-      }
+      { date: "2025/05", store: 3.690, discount: 1.951, applied: 1.739 },
+      { date: "2025/06", store: 3.690, discount: 1.951, applied: 1.739 }
     ]
   },
   {
@@ -342,24 +282,16 @@ export const INTEREST_RATE_DATA: InterestRateData[] = [
       { date: "2013/04", store: 2.475, discount: 1.50, applied: 0.975 }, // 優遇拡大で適用金利1%を切る水準に。
       { date: "2016/02", store: 2.475, discount: 1.90, applied: 0.575 }, // 優遇▲1.9%に拡大。実質0.5%台半ば。
       { date: "2023/01", store: 2.591, discount: 2.112, applied: 0.479 }, // 店頭表示2.591%、適用金利0.479%:contentReference[oaicite:22]{index=22}。
-      {
-        date: "2025/05",
-        store: 2.841,
-        discount: 2.112,
-        applied: 0.729
-      }
+      { date: "2025/05", store: 2.841, discount: 2.112, applied: 0.729 },
+      { date: "2025/06", store: 2.841, discount: 2.112, applied: 0.729 }
     ],
     fixed: [
       // 当初固定金利10年型。
       { date: "2010/04", store: 2.50, discount: 0.00, applied: 2.50 },   // 取扱当初は約2.5%。
       { date: "2016/08", store: 0.80, discount: 0.00, applied: 0.80 },   // 0.8%台まで低下。
       { date: "2023/01", store: 1.20, discount: 0.00, applied: 1.20 },   // 長期金利上昇で1.2%程度に。
-      {
-        date: "2025/05",
-        store: 4.365,
-        discount: 1.825,
-        applied: 2.540
-      }
+      { date: "2025/05", store: 4.365, discount: 1.825, applied: 2.540 },
+      { date: "2025/06", store: 4.365, discount: 1.825, applied: 2.540 }
     ]
   },
   {
@@ -371,24 +303,16 @@ export const INTEREST_RATE_DATA: InterestRateData[] = [
       { date: "2006/04", store: 2.875, discount: 1.30, applied: 1.575 }, // 優遇幅拡大（▲1.3%）。
       { date: "2016/02", store: 2.475, discount: 1.90, applied: 0.575 }, // 優遇▲1.9%。適用金利0.5%台。
       { date: "2023/01", store: 2.475, discount: 2.00, applied: 0.475 }, // 店頭2.475%、優遇▲2.0%で実質0.475%。
-      {
-        date: "2025/05",
-        store: 2.492,
-        discount: 1.595,
-        applied: 0.897
-      }
+      { date: "2025/05", store: 2.492, discount: 1.595, applied: 0.897 },
+      { date: "2025/06", store: 2.492, discount: 1.595, applied: 0.897 }
     ],
     fixed: [
       // 当初固定金利10年型。
       { date: "2005/04", store: 2.50, discount: 0.00, applied: 2.50 },   // 10年固定約2.5%。
       { date: "2016/08", store: 0.70, discount: 0.00, applied: 0.70 },   // 最低水準の0.7%。
       { date: "2023/01", store: 1.10, discount: 0.00, applied: 1.10 },   // 約1.1%に上昇。
-      {
-        date: "2025/05",
-        store: 3.234,
-        discount: 0.950,
-        applied: 2.284
-      }
+      { date: "2025/05", store: 3.234, discount: 0.950, applied: 2.284 },
+      { date: "2025/06", store: 3.234, discount: 0.950, applied: 2.284 }
     ]
   }
 ]

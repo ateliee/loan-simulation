@@ -96,6 +96,17 @@ export const useInterestRateChart = () => {
 
     const legendData = series.map(s => s.name || '')
 
+    // データの最大値と最小値を計算
+    const allValues = series.flatMap(s => s.data).filter((v): v is number => v !== null)
+    const maxValue = Math.max(...allValues)
+    const minValue = Math.min(...allValues)
+
+    // Y軸の範囲を設定（余裕を持たせる）
+    const yAxisMax = Math.ceil(maxValue * 1.1)
+    const yAxisMin = category === 'discount'
+      ? 0 // 引き下げ幅は0%が最小
+      : Math.floor(minValue * 1.1) // 金利は10%の余裕
+
     return {
       tooltip: {
         trigger: 'axis',
@@ -140,8 +151,8 @@ export const useInterestRateChart = () => {
           formatter: '{value}%'
         },
         name: category === 'discount' ? '引き下げ幅' : '金利',
-        min: category === 'discount' ? 0 : -0.2,
-        max: category === 'discount' ? 4 : 6,
+        min: yAxisMin,
+        max: yAxisMax,
         interval: category === 'discount' ? 0.2 : 0.5
       },
       series

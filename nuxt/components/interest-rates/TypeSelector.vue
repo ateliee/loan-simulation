@@ -99,7 +99,7 @@ const handlePolicyRateClick = () => {
 const getLatestRateInfo = (bank: typeof INTEREST_RATE_DATA[0]) => {
   const rate = bank[props.selectedRateType][bank[props.selectedRateType].length - 1]
   const rateType = props.selectedRateType === 'variable' ? '変動' : '固定'
-  return `${rate.date}時点 ${rateType}金利: ${rate.store}%`
+  return `${rate.date}時点 ${rateType}金利: ${rate.applied}%`
 }
 
 // 最新の政策金利情報を取得（日付付き）
