@@ -12,6 +12,67 @@ import { INTEREST_RATE_DATA, POLICY_RATE_DATA, type RateType, getBankColor, poli
 import type { EChartsOption, LineSeriesOption, LegendComponentOption } from 'echarts'
 import { useInterestRateStore } from '~/stores/interestRate'
 
+// 重要な出来事のマークライン定義
+const IMPORTANT_EVENTS = [
+  {
+    name: 'バブル崩壊',
+    xAxis: '1991/04',
+    label: {
+      formatter: 'バブル崩壊',
+      position: 'start' as const
+    }
+  },
+  {
+    name: 'ゼロ金利政策開始',
+    xAxis: '1999/02',
+    label: {
+      formatter: 'ゼロ金利政策開始',
+      position: 'start' as const
+    }
+  },
+  {
+    name: 'リーマンショック',
+    xAxis: '2008/09',
+    label: {
+      formatter: 'リーマンショック',
+      position: 'start' as const
+    }
+  },
+  {
+    name: 'マイナス金利導入',
+    xAxis: '2016/02',
+    label: {
+      formatter: 'マイナス金利導入',
+      position: 'start' as const
+    }
+  },
+  {
+    name: '金融政策正常化',
+    xAxis: '2024/03',
+    label: {
+      formatter: '金融政策正常化',
+      position: 'start' as const
+    }
+  }
+]
+
+// マークラインの共通設定
+const MARK_LINE_CONFIG = {
+  silent: true,
+  symbol: 'none',
+  lineStyle: {
+    color: '#999',
+    type: 'dashed' as const,
+    width: 1
+  },
+  label: {
+    show: true,
+    fontSize: 10,
+    color: '#666'
+  },
+  data: IMPORTANT_EVENTS
+}
+
 // EChartsコンポーネントの登録
 use([
   CanvasRenderer,
@@ -34,6 +95,9 @@ const createDateList = () => {
     bank.variable.forEach(item => allDates.add(item.date))
     bank.fixed.forEach(item => allDates.add(item.date))
   })
+
+  // マークラインの日付を追加
+  IMPORTANT_EVENTS.forEach(event => allDates.add(event.xAxis))
 
   // 日付を昇順にソート
   return Array.from(allDates).sort()
@@ -67,7 +131,8 @@ export const useInterestRateChart = () => {
           },
           itemStyle: {
             color: getBankColor(bank.bankName, INTEREST_RATE_DATA)
-          }
+          },
+          markLine: MARK_LINE_CONFIG
         }))
     ]
 
@@ -90,7 +155,8 @@ export const useInterestRateChart = () => {
         },
         itemStyle: {
           color: policyRateColor,
-        }
+        },
+        markLine: MARK_LINE_CONFIG
       })
     }
 
