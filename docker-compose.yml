@@ -1,8 +1,7 @@
 version: '3.8'
 services:
   dev:
-    build: .
-    command: npm run dev
+    build: ./nuxt
     ports:
       - "3000:3000"
     volumes:
@@ -10,12 +9,9 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+    command: npm run dev
   preview:
-    build: .
-    command: npm run preview
-    volumes:
-      - ./nuxt:/app
-      - /app/node_modules
+    build: ./nuxt
     ports:
       - "3001:3000"
     environment:
