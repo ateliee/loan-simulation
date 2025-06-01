@@ -12,6 +12,67 @@ import { INTEREST_RATE_DATA, POLICY_RATE_DATA, type RateType, getBankColor, poli
 import type { EChartsOption, LineSeriesOption, LegendComponentOption } from 'echarts'
 import { useInterestRateStore } from '~/stores/interestRate'
 
+// 重要な出来事のマークライン定義
+const IMPORTANT_EVENTS = [
+  {
+    name: 'バブル崩壊',
+    xAxis: '1991/04',
+    label: {
+      formatter: 'バブル崩壊',
+      position: 'start' as const
+    }
+  },
+  {
+    name: 'ゼロ金利政策開始',
+    xAxis: '1999/02',
+    label: {
+      formatter: 'ゼロ金利政策開始',
+      position: 'start' as const
+    }
+  },
+  {
+    name: 'リーマンショック',
+    xAxis: '2008/09',
+    label: {
+      formatter: 'リーマンショック',
+      position: 'start' as const
+    }
+  },
+  {
+    name: 'マイナス金利導入',
+    xAxis: '2016/02',
+    label: {
+      formatter: 'マイナス金利導入',
+      position: 'start' as const
+    }
+  },
+  {
+    name: '金融政策正常化',
+    xAxis: '2024/03',
+    label: {
+      formatter: '金融政策正常化',
+      position: 'start' as const
+    }
+  }
+]
+
+// マークラインの共通設定
+const MARK_LINE_CONFIG = {
+  silent: true,
+  symbol: 'none',
+  lineStyle: {
+    color: '#999',
+    type: 'dashed' as const,
+    width: 1
+  },
+  label: {
+    show: true,
+    fontSize: 10,
+    color: '#666'
+  },
+  data: IMPORTANT_EVENTS
+}
+
 // EChartsコンポーネントの登録
 use([
   CanvasRenderer,
@@ -34,6 +95,9 @@ const createDateList = () => {
     bank.variable.forEach(item => allDates.add(item.date))
     bank.fixed.forEach(item => allDates.add(item.date))
   })
+
+  // マークラインの日付を追加
+  IMPORTANT_EVENTS.forEach(event => allDates.add(event.xAxis))
 
   // 日付を昇順にソート
   return Array.from(allDates).sort()
@@ -67,7 +131,8 @@ export const useInterestRateChart = () => {
           },
           itemStyle: {
             color: getBankColor(bank.bankName, INTEREST_RATE_DATA)
-          }
+          },
+          markLine: MARK_LINE_CONFIG
         }))
     ]
 
@@ -90,11 +155,23 @@ export const useInterestRateChart = () => {
         },
         itemStyle: {
           color: policyRateColor,
-        }
+        },
+        markLine: MARK_LINE_CONFIG
       })
     }
 
     const legendData = series.map(s => s.name || '')
+
+    // データの最大値と最小値を計算
+    const allValues = series.flatMap(s => s.data).filter((v): v is number => v !== null)
+    const maxValue = Math.max(...allValues)
+    const minValue = Math.min(...allValues)
+
+    // Y軸の範囲を設定（余裕を持たせる）
+    const yAxisMax = Math.ceil(maxValue * 1.1)
+    const yAxisMin = category === 'discount'
+      ? 0 // 引き下げ幅は0%が最小
+      : Math.floor(minValue * 1.1) // 金利は10%の余裕
 
     return {
       tooltip: {
@@ -140,8 +217,8 @@ export const useInterestRateChart = () => {
           formatter: '{value}%'
         },
         name: category === 'discount' ? '引き下げ幅' : '金利',
-        min: category === 'discount' ? 0 : -0.2,
-        max: category === 'discount' ? 4 : 6,
+        min: yAxisMin,
+        max: yAxisMax,
         interval: category === 'discount' ? 0.2 : 0.5
       },
       series
