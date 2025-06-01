@@ -19,7 +19,7 @@ const IMPORTANT_EVENTS = [
     xAxis: '1991/04',
     label: {
       formatter: 'バブル崩壊',
-      position: 'start' as const
+      position: 'insideStartTop' as const
     }
   },
   {
@@ -27,7 +27,7 @@ const IMPORTANT_EVENTS = [
     xAxis: '1999/02',
     label: {
       formatter: 'ゼロ金利政策開始',
-      position: 'start' as const
+      position: 'insideStartTop' as const
     }
   },
   {
@@ -35,7 +35,7 @@ const IMPORTANT_EVENTS = [
     xAxis: '2008/09',
     label: {
       formatter: 'リーマンショック',
-      position: 'start' as const
+      position: 'insideStartTop' as const
     }
   },
   {
@@ -43,7 +43,7 @@ const IMPORTANT_EVENTS = [
     xAxis: '2016/02',
     label: {
       formatter: 'マイナス金利導入',
-      position: 'start' as const
+      position: 'insideStartTop' as const
     }
   },
   {
@@ -51,7 +51,7 @@ const IMPORTANT_EVENTS = [
     xAxis: '2024/03',
     label: {
       formatter: '金融政策正常化',
-      position: 'start' as const
+      position: 'insideStartTop' as const
     }
   }
 ]
