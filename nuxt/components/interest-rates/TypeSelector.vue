@@ -1,7 +1,31 @@
 <template>
   <v-card class="pa-4">
-    <v-card-title class="text-subtitle-1 font-weight-bold">
-      銀行選択
+    <v-card-title class="text-subtitle-1 font-weight-bold d-flex align-center">
+      <span>銀行選択</span>
+      <v-spacer></v-spacer>
+      <div class="d-flex">
+        <v-btn
+          variant="text"
+          size="small"
+          color="primary"
+          class="mr-2"
+          :disabled="selectedBanks.size === INTEREST_RATE_DATA.length"
+          @click="selectAllBanks"
+        >
+          <v-icon start>mdi-check-all</v-icon>
+          すべて選択
+        </v-btn>
+        <v-btn
+          variant="text"
+          size="small"
+          color="error"
+          :disabled="selectedBanks.size === 0"
+          @click="clearAllBanks"
+        >
+          <v-icon start>mdi-close-circle</v-icon>
+          すべて解除
+        </v-btn>
+      </div>
     </v-card-title>
     <v-card-text>
       <v-list>
@@ -92,6 +116,20 @@ const handleBankClick = (bankName: string) => {
 
 const handlePolicyRateClick = () => {
   store.togglePolicyRate()
+  emit('updateCharts')
+}
+
+const selectAllBanks = () => {
+  INTEREST_RATE_DATA.forEach(bank => {
+    if (!selectedBanks.value.has(bank.bankName)) {
+      store.toggleBank(bank.bankName)
+    }
+  })
+  emit('updateCharts')
+}
+
+const clearAllBanks = () => {
+  store.selectedBanks.clear()
   emit('updateCharts')
 }
 
