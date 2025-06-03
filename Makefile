@@ -1,13 +1,13 @@
 DEV_CONTAINER=dev
 PREVIEW_CONTAINER=preview
 
-.PHONY: dev build preview lint format test up down deploy logs ssh
+.PHONY: dev build preview lint format test up down deploy logs ssh reset
 
 dev:
 	docker compose up -d $(DEV_CONTAINER)
 
 up:
-	docker compose up -d
+	docker compose up -d --build
 
 down:
 	docker compose down
@@ -32,3 +32,8 @@ logs:
 
 ssh:
 	docker compose exec $(DEV_CONTAINER) sh
+
+reset:
+	docker compose down -v --remove-orphans
+	docker compose rm -f
+	docker volume prune -f

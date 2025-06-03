@@ -8,6 +8,10 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - FIREBASE_PROJECT_ID=demo-project
+      - FIREBASE_EMULATOR_HOST=localhost
+      - FIREBASE_CLIENT_EMAIL=demo@example.com
+      - FIREBASE_PRIVATE_KEY=demo-key
     command: npm run dev
   preview:
     build: ./nuxt
@@ -15,3 +19,15 @@ services:
       - "3001:3000"
     environment:
       - NODE_ENV=production
+  firebase:
+    build: ./infra/firebase
+    volumes:
+      - ./.firebaserc:/app/.firebaserc
+      - ./firebase.json:/app/firebase.json
+    command: npx -p firebase-tools --yes firebase emulators:start
+    ports:
+      - "4000:4000"  # Emulator UI
+      - "8080:8080"  # Firestore
+    environment:
+      - NODE_ENV=development
+    tty: true
