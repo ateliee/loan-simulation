@@ -11,7 +11,8 @@ services:
       - FIREBASE_PROJECT_ID=demo-project
       - FIREBASE_EMULATOR_HOST=localhost
       - FIREBASE_CLIENT_EMAIL=demo@example.com
-      - FIREBASE_PRIVATE_KEY=demo-key
+      # TODO: ダミーの証明書を設定する
+      - FIREBASE_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\nfakekey\n-----END PRIVATE KEY-----\n
     command: npm run dev
   preview:
     build: ./nuxt

@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio'
 import chalk from 'chalk'
-import { db } from './firebase'
+import { getDb } from './firebase'
 
 // 定数定義
 export const BANKS = {
@@ -48,7 +48,7 @@ export async function saveRateInfo(rateInfo: RateInfo, isDryRun: boolean = false
   try {
     if (!isDryRun) {
       // Firestoreに保存
-      const docRef = db.collection('interestRates').doc()
+      const docRef = getDb().collection('interestRates').doc()
       await docRef.set({
         ...rateInfo,
         createdAt: new Date()
@@ -66,7 +66,7 @@ export async function saveRateInfo(rateInfo: RateInfo, isDryRun: boolean = false
     console.log(chalk.yellow('適用金利:'), chalk.white(`${rateInfo.appliedRate}%`))
     console.log(chalk.yellow('引き下げ率:'), chalk.white(`${rateInfo.discountRate}%`))
     console.log(chalk.grey(`\n最終更新: ${rateInfo.lastUpdated}`))
-    console.log(chalk.grey(`保存ID: ${docRef.id}`))
+    // console.log(chalk.grey(`保存ID: ${docRef.id}`))
   } catch (error) {
     console.error(chalk.red('保存中にエラーが発生しました:'), error)
     throw error
