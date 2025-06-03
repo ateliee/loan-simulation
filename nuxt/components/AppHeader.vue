@@ -63,6 +63,12 @@ const menuItems = [
     to: '/interest-rates',
     icon: 'mdi-chart-line',
     variant: 'text' as const
+  },
+  {
+    title: '税金計算',
+    to: '/tax-calculator',
+    icon: 'mdi-calculator',
+    variant: 'text' as const
   }
 ]
 
