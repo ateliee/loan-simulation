@@ -265,6 +265,7 @@ const getPensionDescription = (): string => {
 
 .v-list-item-subtitle {
   min-width: 150px;
+  word-break: break-word;
 }
 
 .v-list-item-title {
@@ -275,5 +276,20 @@ const getPensionDescription = (): string => {
 .text-h6 {
   font-size: 1.25rem !important;
   font-weight: 500 !important;
+}
+
+@media (width <= 600px) {
+  .v-list-item {
+    padding: 8px 12px;
+  }
+
+  .v-list-item-subtitle {
+    min-width: 120px;
+    font-size: 0.75rem;
+  }
+
+  .text-h6 {
+    font-size: 1.1rem !important;
+  }
 }
 </style>
