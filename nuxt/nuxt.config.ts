@@ -1,3 +1,4 @@
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
@@ -19,15 +20,8 @@ export default defineNuxtConfig({
       'process.env.DEBUG': false,
     },
   },
-  sitemap: {
-    hostname: 'https://loan-simulation.ateliee.com',
-    gzip: true,
-    exclude: [
-      '/admin/**',
-      '/api/**',
-      '/_nuxt/**',
-      '/_ipx/**'
-    ],
+  site: {
+    url: 'https://loan-simulation.ateliee.com',
   },
   app: {
     head: {
