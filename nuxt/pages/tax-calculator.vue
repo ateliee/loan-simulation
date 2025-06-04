@@ -26,18 +26,10 @@ import { ref, onMounted } from 'vue'
 import TaxCalculatorForm from '~/components/tax-calculator/Form.vue'
 import TaxCalculationResult from '~/components/tax-calculator/Result.vue'
 import TakeHomePay from '~/components/tax-calculator/TakeHomePay.vue'
+import type { TaxCalculationResultData } from '~/types/tax-calculator'
 
 const formRef = ref()
-const results = ref<{
-  annualIncome: number
-  incomeTax: number
-  residentTax: number
-  healthInsurance: number
-  pension: number
-  takeHomePay: number
-  monthlyIncome?: number
-  bonus?: number
-} | null>(null)
+const results = ref<TaxCalculationResultData | null>(null)
 
 const updateResults = (newResults: typeof results.value) => {
   results.value = newResults

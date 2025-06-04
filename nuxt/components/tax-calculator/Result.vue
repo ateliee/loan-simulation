@@ -163,21 +163,9 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  annualIncome: number
-  incomeTax: number
-  residentTax: number
-  healthInsurance: number
-  pension: number
-  takeHomePay: number
-  monthlyIncome?: number
-  bonus?: number
-  salaryDeduction: number
-  basicDeduction: number
-  socialInsuranceDeduction: number
-  taxableIncome: number
-  employmentType: string
-}>()
+import type { TaxCalculationResultData, EmploymentType } from '~/types/tax-calculator'
+
+const props = defineProps<TaxCalculationResultData>()
 
 const formatNumber = (num: number): string => {
   return Number(num).toLocaleString('ja-JP')

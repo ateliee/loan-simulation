@@ -13,10 +13,7 @@
             <v-select
               v-model="employmentType"
               label="雇用形態"
-              :items="[
-                { title: '正社員', value: 'fullTime' },
-                { title: 'パート・アルバイト', value: 'partTime' }
-              ]"
+              :items="employmentTypeOptions"
               class="mt-4"
             />
             <v-text-field
@@ -33,10 +30,7 @@
             <v-select
               v-model="employmentType"
               label="雇用形態"
-              :items="[
-                { title: '正社員', value: 'fullTime' },
-                { title: 'パート・アルバイト', value: 'partTime' }
-              ]"
+              :items="employmentTypeOptions"
               class="mt-4"
             />
             <v-text-field
@@ -64,15 +58,21 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import type { TaxCalculationResultData, EmploymentType, EmploymentTypeOption } from '~/types/tax-calculator'
 
 const form = ref()
 const isValid = ref(false)
 const activeTab = ref('annual')
-const employmentType = ref('fullTime')
+const employmentType = ref<EmploymentType>('fullTime')
 
 const annualIncome = ref<string>('5000000')
 const monthlyIncome = ref<string>('350000')
 const bonus = ref<string>('1000000')
+
+const employmentTypeOptions: EmploymentTypeOption[] = [
+  { title: '正社員', value: 'fullTime' },
+  { title: 'パート・アルバイト', value: 'partTime' }
+]
 
 const rules = {
   required: (v: string) => !!v || '入力してください',
@@ -80,21 +80,7 @@ const rules = {
 }
 
 const emit = defineEmits<{
-  (e: 'update:results', value: {
-    annualIncome: number
-    incomeTax: number
-    residentTax: number
-    healthInsurance: number
-    pension: number
-    takeHomePay: number
-    monthlyIncome?: number
-    bonus?: number
-    salaryDeduction: number
-    basicDeduction: number
-    socialInsuranceDeduction: number
-    taxableIncome: number
-    employmentType: string
-  }): void
+  (e: 'update:results', value: TaxCalculationResultData): void
 }>()
 
 // 給与所得控除額を計算
