@@ -80,7 +80,7 @@
                   <div>
                     <v-list-item-title>課税所得</v-list-item-title>
                     <v-list-item-subtitle class="text-caption text-medium-emphasis">
-                      {{ getTaxableIncomeFormula(annualIncome) }}
+                      {{ getTaxableIncomeFormula() }}
                     </v-list-item-subtitle>
                   </div>
                   <div class="text-right">
@@ -133,7 +133,7 @@
           <div>
             <v-list-item-title>健康保険料</v-list-item-title>
             <v-list-item-subtitle class="text-caption text-medium-emphasis">
-              標準報酬月額 × 9.81% × 12ヶ月
+              {{ getHealthInsuranceDescription() }}
             </v-list-item-subtitle>
           </div>
           <div class="text-right">
@@ -147,9 +147,9 @@
             <v-icon>mdi-account-group</v-icon>
           </template>
           <div>
-            <v-list-item-title>厚生年金保険料</v-list-item-title>
+            <v-list-item-title>年金保険料</v-list-item-title>
             <v-list-item-subtitle class="text-caption text-medium-emphasis">
-              標準報酬月額 × 9.15% × 12ヶ月
+              {{ getPensionDescription() }}
             </v-list-item-subtitle>
           </div>
           <div class="text-right">
@@ -163,7 +163,7 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   annualIncome: number
   incomeTax: number
   residentTax: number
@@ -176,6 +176,7 @@ defineProps<{
   basicDeduction: number
   socialInsuranceDeduction: number
   taxableIncome: number
+  employmentType: string
 }>()
 
 const formatNumber = (num: number): string => {
@@ -248,6 +249,24 @@ const getSalaryDeductionAmount = (income: number): number => {
 // 課税所得の計算式を取得
 const getTaxableIncomeFormula = (): string => {
   return `年収 - 給与所得控除 - 基礎控除 - 社会保険料控除`
+}
+
+// 健康保険料の説明を取得
+const getHealthInsuranceDescription = (): string => {
+  if (props.employmentType === 'fullTime') {
+    return '標準報酬月額 × 9.81% × 12ヶ月（厚生年金）'
+  } else {
+    return '標準報酬月額 × 8% × 12ヶ月（国民健康保険）'
+  }
+}
+
+// 年金保険料の説明を取得
+const getPensionDescription = (): string => {
+  if (props.employmentType === 'fullTime') {
+    return '標準報酬月額 × 9.15% × 12ヶ月（厚生年金）'
+  } else {
+    return '16,650円 × 12ヶ月（国民年金）'
+  }
 }
 </script>
 

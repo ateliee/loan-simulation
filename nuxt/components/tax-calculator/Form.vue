@@ -10,6 +10,15 @@
 
         <v-window v-model="activeTab">
           <v-window-item value="annual">
+            <v-select
+              v-model="employmentType"
+              label="雇用形態"
+              :items="[
+                { title: '正社員', value: 'fullTime' },
+                { title: 'パート・アルバイト', value: 'partTime' }
+              ]"
+              class="mt-4"
+            />
             <v-text-field
               v-model="annualIncome"
               label="年収"
@@ -21,6 +30,15 @@
           </v-window-item>
 
           <v-window-item value="monthly">
+            <v-select
+              v-model="employmentType"
+              label="雇用形態"
+              :items="[
+                { title: '正社員', value: 'fullTime' },
+                { title: 'パート・アルバイト', value: 'partTime' }
+              ]"
+              class="mt-4"
+            />
             <v-text-field
               v-model="monthlyIncome"
               label="月収"
@@ -50,6 +68,7 @@ import { ref, watch } from 'vue'
 const form = ref()
 const isValid = ref(false)
 const activeTab = ref('annual')
+const employmentType = ref('fullTime')
 
 const annualIncome = ref<string>('5000000')
 const monthlyIncome = ref<string>('350000')
@@ -74,6 +93,7 @@ const emit = defineEmits<{
     basicDeduction: number
     socialInsuranceDeduction: number
     taxableIncome: number
+    employmentType: string
   }): void
 }>()
 
@@ -144,18 +164,29 @@ const calculateResidentTax = (taxableIncome: number): number => {
   return Math.floor(taxableIncome * 0.1)
 }
 
-// 健康保険料を計算（標準報酬月額に基づく概算）
+// 健康保険料を計算
 const calculateHealthInsurance = (monthlyIncome: number): number => {
-  // 標準報酬月額の等級に応じた保険料率（概算）
-  const rate = 0.0981 // 9.81%（事業主負担分を除く）
-  return Math.floor(monthlyIncome * rate * 12)
+  if (employmentType.value === 'fullTime') {
+    // 正社員の場合：厚生年金保険料率（9.81%）
+    const rate = 0.0981
+    return Math.floor(monthlyIncome * rate * 12)
+  } else {
+    // パート・アルバイトの場合：国民健康保険料率（都道府県・市区町村により異なるが、概算で8%）
+    const rate = 0.08
+    return Math.floor(monthlyIncome * rate * 12)
+  }
 }
 
-// 厚生年金保険料を計算（標準報酬月額に基づく概算）
+// 年金保険料を計算
 const calculatePension = (monthlyIncome: number): number => {
-  // 標準報酬月額の等級に応じた保険料率（概算）
-  const rate = 0.0915 // 9.15%（事業主負担分を除く）
-  return Math.floor(monthlyIncome * rate * 12)
+  if (employmentType.value === 'fullTime') {
+    // 正社員の場合：厚生年金保険料率（9.15%）
+    const rate = 0.0915
+    return Math.floor(monthlyIncome * rate * 12)
+  } else {
+    // パート・アルバイトの場合：国民年金保険料（固定額）
+    return 199_800 // 2024年度の国民年金保険料（月額16,650円 × 12ヶ月）
+  }
 }
 
 const calculateTax = async () => {
@@ -201,12 +232,13 @@ const calculateTax = async () => {
     salaryDeduction,
     basicDeduction,
     socialInsuranceDeduction,
-    taxableIncome
+    taxableIncome,
+    employmentType: employmentType.value
   })
 }
 
 // 入力値の変更を監視
-watch([annualIncome, monthlyIncome, bonus, activeTab], () => {
+watch([annualIncome, monthlyIncome, bonus, activeTab, employmentType], () => {
   calculateTax()
 }, { immediate: true })
 
