@@ -1,0 +1,71 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# プロジェクト構造ガイド
+
+## ディレクトリ構造
+
+```
+.
+├── .cursor/          # Cursor IDEの設定
+├── .github/          # GitHub Actionsの設定
+├── nuxt/             # Nuxt.jsプロジェクトのメインディレクトリ
+│   ├── components/   # Vueコンポーネント
+│   ├── pages/       # ページコンポーネント
+│   ├── types/       # TypeScript型定義
+│   └── test/        # テストファイル
+├── docker/          # Docker関連の設定ファイル
+├── Makefile         # 開発用コマンド
+└── docker-compose.yml # Docker Compose設定
+```
+
+## コーディングルール
+
+### コンポーネント構造
+- コンポーネントは`nuxt/components`ディレクトリに配置
+- 関連するコンポーネントはサブディレクトリにまとめる
+- コンポーネント名はPascalCaseで命名
+- ファイル名はコンポーネント名と一致させる
+
+### TypeScript
+- 型定義は`nuxt/types`ディレクトリに配置
+- インターフェース名は`I`プレフィックスを付けない
+- 型定義ファイルは`.ts`拡張子を使用
+
+### スタイリング
+- SCSSを使用
+- コンポーネントスコープのスタイルは`<style lang="scss" scoped>`を使用
+- グローバルスタイルは`assets/styles`に配置
+
+### テスト
+- テストファイルは`nuxt/test`ディレクトリに配置
+- コンポーネントテストは`__tests__`ディレクトリに配置
+- テストファイル名は`.spec.ts`で終わる
+
+### 開発環境
+- ローカル環境はDocker Composeを使用
+- 開発コマンドはMakefileにまとめる
+- 主なコマンド:
+  - `make up`: 開発環境の起動
+  - `make down`: 開発環境の停止
+  - `make install`: 依存関係のインストール
+  - `make dev`: 開発サーバーの起動
+  - `make test`: テストの実行
+
+### Git
+- コミットメッセージは日本語で記述
+- 機能追加は`feat:`プレフィックス
+- バグ修正は`fix:`プレフィックス
+- リファクタリングは`refactor:`プレフィックス
+
+### パフォーマンス
+- 計算結果は`computed`プロパティを使用
+- 大きなリストは仮想スクロールを検討
+- 画像は最適化して使用
+
+### アクセシビリティ
+- 適切なARIA属性を使用
+- カラーコントラストを考慮
+- キーボード操作をサポート

@@ -1,0 +1,110 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# コンポーネントガイドライン
+
+## コンポーネントの基本構造
+
+```vue
+<template>
+  <!-- テンプレート -->
+</template>
+
+<script setup lang="ts">
+// 型定義のインポート
+import type { ComponentProps } from '~/types/component'
+
+// Propsの定義
+const props = defineProps<ComponentProps>()
+
+// Emitsの定義
+const emit = defineEmits<{
+  (e: 'update', value: string): void
+}>()
+
+// Computedプロパティ
+const computedValue = computed(() => {
+  // 計算ロジック
+})
+
+// メソッド
+const handleEvent = () => {
+  // イベント処理
+}
+</script>
+
+<style lang="scss" scoped>
+// スタイル定義
+</style>
+```
+
+## 命名規則
+
+### コンポーネント名
+- PascalCaseを使用（例：`TaxCalculator`）
+- 機能を表す名詞を使用
+- 接頭辞は使用しない
+
+### Props名
+- camelCaseを使用（例：`annualIncome`）
+- 型を表す接尾辞は使用しない（例：`isLoading`ではなく`loading`）
+
+### イベント名
+- camelCaseを使用
+- 動詞から始める（例：`updateValue`）
+- 変更イベントは`update:`プレフィックスを使用（例：`update:modelValue`）
+
+## コンポーネントの分割
+
+### 分割の基準
+- 再利用可能な機能単位で分割
+- 1コンポーネントの責務は1つに
+- 300行を超える場合は分割を検討
+
+### 親子関係
+- 親コンポーネントは状態管理を担当
+- 子コンポーネントは表示とユーザー入力に特化
+- 子コンポーネントは親の状態を直接変更しない
+
+## パフォーマンス最適化
+
+### 計算の最適化
+- 重い計算は`computed`プロパティを使用
+- メソッド内の計算は最小限に
+- 不要な再計算を避ける
+
+### レンダリングの最適化
+- `v-if`と`v-show`を適切に使い分け
+- リストの場合は`v-for`に`key`を指定
+- 大きなリストは仮想スクロールを検討
+
+## エラーハンドリング
+
+### バリデーション
+- Propsの型チェックを厳密に
+- 必須項目は`required: true`を指定
+- デフォルト値は適切に設定
+
+### エラー表示
+- エラーメッセージは明確に
+- エラー状態は視覚的に分かりやすく
+- エラーの原因と対処方法を提示
+
+## アクセシビリティ
+
+### セマンティックHTML
+- 適切なHTML要素を使用
+- 見出しレベルを正しく設定
+- リストは適切な要素を使用
+
+### ARIA属性
+- 必要なARIA属性を設定
+- ロールを適切に指定
+- 状態変更を通知
+
+### キーボード操作
+- フォーカス可能な要素を適切に設定
+- キーボードショートカットを提供
+- フォーカス順序を考慮
