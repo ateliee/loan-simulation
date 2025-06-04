@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   ssr: false,
   modules: [
     '@pinia/nuxt',
+    '@nuxtjs/sitemap'
   ],
   css: [
     'vuetify/styles',
@@ -17,6 +18,16 @@ export default defineNuxtConfig({
     define: {
       'process.env.DEBUG': false,
     },
+  },
+  sitemap: {
+    hostname: 'https://loan-simulation.ateliee.com',
+    gzip: true,
+    exclude: [
+      '/admin/**',
+      '/api/**',
+      '/_nuxt/**',
+      '/_ipx/**'
+    ],
   },
   app: {
     head: {
