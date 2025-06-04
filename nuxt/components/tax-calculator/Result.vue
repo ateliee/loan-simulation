@@ -35,7 +35,7 @@
                   <div>
                     <v-list-item-title>給与所得控除</v-list-item-title>
                     <v-list-item-subtitle class="text-caption text-medium-emphasis">
-                      {{ getSalaryDeductionFormula(annualIncome) }}
+                      {{ salaryDeductionFormula }}
                     </v-list-item-subtitle>
                   </div>
                   <div class="text-right">
@@ -80,7 +80,7 @@
                   <div>
                     <v-list-item-title>課税所得</v-list-item-title>
                     <v-list-item-subtitle class="text-caption text-medium-emphasis">
-                      {{ getTaxableIncomeFormula() }}
+                      {{ taxableIncomeFormula }}
                     </v-list-item-subtitle>
                   </div>
                   <div class="text-right">
@@ -101,7 +101,7 @@
           <div>
             <v-list-item-title>所得税</v-list-item-title>
             <v-list-item-subtitle class="text-caption text-medium-emphasis">
-              {{ getIncomeTaxFormula(annualIncome) }}
+              {{ incomeTaxFormula }}
             </v-list-item-subtitle>
           </div>
           <div class="text-right">
@@ -117,7 +117,7 @@
           <div>
             <v-list-item-title>住民税</v-list-item-title>
             <v-list-item-subtitle class="text-caption text-medium-emphasis">
-              {{ getResidentTaxFormula(annualIncome) }}
+              {{ residentTaxFormula }}
             </v-list-item-subtitle>
           </div>
           <div class="text-right">
@@ -133,7 +133,7 @@
           <div>
             <v-list-item-title>健康保険料</v-list-item-title>
             <v-list-item-subtitle class="text-caption text-medium-emphasis">
-              {{ getHealthInsuranceDescription() }}
+              {{ healthInsuranceDescription }}
             </v-list-item-subtitle>
           </div>
           <div class="text-right">
@@ -149,7 +149,7 @@
           <div>
             <v-list-item-title>年金保険料</v-list-item-title>
             <v-list-item-subtitle class="text-caption text-medium-emphasis">
-              {{ getPensionDescription() }}
+              {{ pensionDescription }}
             </v-list-item-subtitle>
           </div>
           <div class="text-right">
@@ -164,6 +164,7 @@
 
 <script setup lang="ts">
 import type { TaxCalculationResultData } from '~/types/tax-calculator'
+import { computed } from 'vue'
 
 const props = defineProps<TaxCalculationResultData>()
 
@@ -172,90 +173,68 @@ const formatNumber = (num: number): string => {
 }
 
 // 給与所得控除の計算式を取得
-const getSalaryDeductionFormula = (income: number): string => {
-  if (income <= 1_625_000) {
+const salaryDeductionFormula = computed((): string => {
+  if (props.annualIncome <= 1_625_000) {
     return '550,000円（年収1,625,000円以下の場合）'
-  } else if (income <= 1_800_000) {
-    return `年収 × 40% = ${formatNumber(Math.floor(income * 0.4))}円`
-  } else if (income <= 3_600_000) {
-    return `年収 × 30% + 180,000円 = ${formatNumber(Math.floor(income * 0.3 + 180_000))}円`
-  } else if (income <= 6_600_000) {
-    return `年収 × 20% + 540,000円 = ${formatNumber(Math.floor(income * 0.2 + 540_000))}円`
-  } else if (income <= 8_500_000) {
-    return `年収 × 10% + 1,200,000円 = ${formatNumber(Math.floor(income * 0.1 + 1_200_000))}円`
+  } else if (props.annualIncome <= 1_800_000) {
+    return `年収 × 40% = ${formatNumber(Math.floor(props.annualIncome * 0.4))}円`
+  } else if (props.annualIncome <= 3_600_000) {
+    return `年収 × 30% + 180,000円 = ${formatNumber(Math.floor(props.annualIncome * 0.3 + 180_000))}円`
+  } else if (props.annualIncome <= 6_600_000) {
+    return `年収 × 20% + 540,000円 = ${formatNumber(Math.floor(props.annualIncome * 0.2 + 540_000))}円`
+  } else if (props.annualIncome <= 8_500_000) {
+    return `年収 × 10% + 1,200,000円 = ${formatNumber(Math.floor(props.annualIncome * 0.1 + 1_200_000))}円`
   } else {
     return '1,950,000円（年収8,500,000円超の場合）'
   }
-}
-
-// 所得税の計算式を取得
-const getIncomeTaxFormula = (income: number): string => {
-  const deduction = getSalaryDeductionAmount(income)
-  const taxableIncome = income - deduction
-
-  if (taxableIncome <= 1_950_000) {
-    return `課税所得（${formatNumber(taxableIncome)}円）× 5%`
-  } else if (taxableIncome <= 3_300_000) {
-    return `課税所得（${formatNumber(taxableIncome)}円）× 10% - 97,500円`
-  } else if (taxableIncome <= 6_950_000) {
-    return `課税所得（${formatNumber(taxableIncome)}円）× 20% - 427,500円`
-  } else if (taxableIncome <= 9_000_000) {
-    return `課税所得（${formatNumber(taxableIncome)}円）× 23% - 636,000円`
-  } else if (taxableIncome <= 18_000_000) {
-    return `課税所得（${formatNumber(taxableIncome)}円）× 33% - 1,536,000円`
-  } else if (taxableIncome <= 40_000_000) {
-    return `課税所得（${formatNumber(taxableIncome)}円）× 40% - 2,796,000円`
-  } else {
-    return `課税所得（${formatNumber(taxableIncome)}円）× 45% - 4,796,000円`
-  }
-}
-
-// 住民税の計算式を取得
-const getResidentTaxFormula = (income: number): string => {
-  const deduction = getSalaryDeductionAmount(income)
-  const taxableIncome = income - deduction
-  return `課税所得（${formatNumber(taxableIncome)}円）× 10%`
-}
-
-// 給与所得控除額を計算
-const getSalaryDeductionAmount = (income: number): number => {
-  if (income <= 1_625_000) {
-    return 550_000
-  } else if (income <= 1_800_000) {
-    return Math.floor(income * 0.4)
-  } else if (income <= 3_600_000) {
-    return Math.floor(income * 0.3 + 180_000)
-  } else if (income <= 6_600_000) {
-    return Math.floor(income * 0.2 + 540_000)
-  } else if (income <= 8_500_000) {
-    return Math.floor(income * 0.1 + 1_200_000)
-  } else {
-    return 1_950_000
-  }
-}
+})
 
 // 課税所得の計算式を取得
-const getTaxableIncomeFormula = (): string => {
-  return `年収 - 給与所得控除 - 基礎控除 - 社会保険料控除`
-}
+const taxableIncomeFormula = computed((): string => {
+  return `年収（${formatNumber(props.annualIncome)}円）- 給与所得控除（${formatNumber(props.salaryDeduction)}円）- 基礎控除（${formatNumber(props.basicDeduction)}円）- 社会保険料控除（${formatNumber(props.socialInsuranceDeduction)}円）`
+})
+
+// 所得税の計算式を取得
+const incomeTaxFormula = computed((): string => {
+  if (props.taxableIncome <= 1_950_000) {
+    return `課税所得（${formatNumber(props.taxableIncome)}円）× 5%`
+  } else if (props.taxableIncome <= 3_300_000) {
+    return `課税所得（${formatNumber(props.taxableIncome)}円）× 10% - 97,500円`
+  } else if (props.taxableIncome <= 6_950_000) {
+    return `課税所得（${formatNumber(props.taxableIncome)}円）× 20% - 427,500円`
+  } else if (props.taxableIncome <= 9_000_000) {
+    return `課税所得（${formatNumber(props.taxableIncome)}円）× 23% - 636,000円`
+  } else if (props.taxableIncome <= 18_000_000) {
+    return `課税所得（${formatNumber(props.taxableIncome)}円）× 33% - 1,536,000円`
+  } else if (props.taxableIncome <= 40_000_000) {
+    return `課税所得（${formatNumber(props.taxableIncome)}円）× 40% - 2,796,000円`
+  } else {
+    return `課税所得（${formatNumber(props.taxableIncome)}円）× 45% - 4,796,000円`
+  }
+})
+
+// 住民税の計算式を取得
+const residentTaxFormula = computed((): string => {
+  return `課税所得（${formatNumber(props.taxableIncome)}円）× 10%`
+})
 
 // 健康保険料の説明を取得
-const getHealthInsuranceDescription = (): string => {
+const healthInsuranceDescription = computed((): string => {
   if (props.employmentType === 'fullTime') {
     return '標準報酬月額 × 9.81% × 12ヶ月（厚生年金）'
   } else {
     return '標準報酬月額 × 8% × 12ヶ月（国民健康保険）'
   }
-}
+})
 
 // 年金保険料の説明を取得
-const getPensionDescription = (): string => {
+const pensionDescription = computed((): string => {
   if (props.employmentType === 'fullTime') {
     return '標準報酬月額 × 9.15% × 12ヶ月（厚生年金）'
   } else {
     return '16,650円 × 12ヶ月（国民年金）'
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>
