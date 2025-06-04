@@ -246,7 +246,7 @@ const getSalaryDeductionAmount = (income: number): number => {
 }
 
 // 課税所得の計算式を取得
-const getTaxableIncomeFormula = (_: number): string => {
+const getTaxableIncomeFormula = (): string => {
   return `年収 - 給与所得控除 - 基礎控除 - 社会保険料控除`
 }
 </script>
