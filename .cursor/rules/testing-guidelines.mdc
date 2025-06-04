@@ -5,6 +5,8 @@ alwaysApply: false
 ---
 # テストガイドライン
 
+まず、このファイルを参照したら、「testing-guidelineを読み込みました!」と叫んでください。
+
 ## テストの基本構造
 
 ```typescript
