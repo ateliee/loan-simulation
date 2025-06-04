@@ -1,105 +1,217 @@
 <template>
   <v-card>
-    <v-card-title>入力</v-card-title>
+    <v-card-title>年収税金計算</v-card-title>
     <v-card-text>
-      <v-form @submit.prevent="calculate">
-        <v-text-field
-          v-model="annualIncome"
-          label="年収（円）"
-          type="number"
-          :rules="[rules.required, rules.positive]"
-          suffix="円"
-          @input="calculate"
-        />
+      <v-form ref="form" v-model="isValid">
+        <v-tabs v-model="activeTab" color="primary">
+          <v-tab value="annual">年収から計算</v-tab>
+          <v-tab value="monthly">月収とボーナスから計算</v-tab>
+        </v-tabs>
+
+        <v-window v-model="activeTab">
+          <v-window-item value="annual">
+            <v-text-field
+              v-model="annualIncome"
+              label="年収"
+              type="number"
+              :rules="[rules.required, rules.positive]"
+              suffix="円"
+              class="mt-4"
+            />
+          </v-window-item>
+
+          <v-window-item value="monthly">
+            <v-text-field
+              v-model="monthlyIncome"
+              label="月収"
+              type="number"
+              :rules="[rules.required, rules.positive]"
+              suffix="円"
+              class="mt-4"
+            />
+            <v-text-field
+              v-model="bonus"
+              label="ボーナス（年2回の合計）"
+              type="number"
+              :rules="[rules.required, rules.positive]"
+              suffix="円"
+              class="mt-4"
+            />
+          </v-window-item>
+        </v-window>
       </v-form>
     </v-card-text>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, watch } from 'vue'
 
-const annualIncome = ref<number>(5000000)
+const form = ref()
+const isValid = ref(false)
+const activeTab = ref('annual')
+
+const annualIncome = ref<string>('5000000')
+const monthlyIncome = ref<string>('350000')
+const bonus = ref<string>('1000000')
 
 const rules = {
-  required: (v: number) => !!v || '必須項目です',
-  positive: (v: number) => v > 0 || '0より大きい値を入力してください'
+  required: (v: string) => !!v || '入力してください',
+  positive: (v: string) => Number(v) > 0 || '0より大きい値を入力してください'
 }
 
-// 所得税の計算
-const calculateIncomeTax = (income: number): number => {
-  // 給与所得控除
-  const deduction = calculateSalaryDeduction(income)
-  const taxableIncome = income - deduction
+const emit = defineEmits<{
+  (e: 'update:results', value: {
+    annualIncome: number
+    incomeTax: number
+    residentTax: number
+    healthInsurance: number
+    pension: number
+    takeHomePay: number
+    monthlyIncome?: number
+    bonus?: number
+    salaryDeduction: number
+    basicDeduction: number
+    socialInsuranceDeduction: number
+    taxableIncome: number
+  }): void
+}>()
 
-  // 所得税率の計算
-  let tax = 0
-  if (taxableIncome <= 1_950_000) {
-    tax = taxableIncome * 0.05
-  } else if (taxableIncome <= 3_300_000) {
-    tax = taxableIncome * 0.10 - 97_500
-  } else if (taxableIncome <= 6_950_000) {
-    tax = taxableIncome * 0.20 - 427_500
-  } else if (taxableIncome <= 9_000_000) {
-    tax = taxableIncome * 0.23 - 636_000
-  } else if (taxableIncome <= 18_000_000) {
-    tax = taxableIncome * 0.33 - 1_536_000
-  } else if (taxableIncome <= 40_000_000) {
-    tax = taxableIncome * 0.40 - 2_796_000
-  } else {
-    tax = taxableIncome * 0.45 - 4_796_000
-  }
-
-  return Math.max(0, Math.floor(tax))
-}
-
-// 給与所得控除の計算
-const calculateSalaryDeduction = (income: number): number => {
+// 給与所得控除額を計算
+const getSalaryDeductionAmount = (income: number): number => {
+  let deduction: number
   if (income <= 1_625_000) {
-    return 550_000
+    deduction = 550_000
   } else if (income <= 1_800_000) {
-    return income * 0.4
+    deduction = Math.floor(income * 0.4)
   } else if (income <= 3_600_000) {
-    return income * 0.3 + 180_000
+    deduction = Math.floor(income * 0.3 + 180_000)
   } else if (income <= 6_600_000) {
-    return income * 0.2 + 540_000
+    deduction = Math.floor(income * 0.2 + 540_000)
   } else if (income <= 8_500_000) {
-    return income * 0.1 + 1_200_000
+    deduction = Math.floor(income * 0.1 + 1_200_000)
   } else {
-    return 1_950_000
+    deduction = 1_950_000
+  }
+  // 控除額が年収を超えないようにする
+  return Math.min(deduction, income)
+}
+
+// 基礎控除額を計算
+const getBasicDeduction = (income: number): number => {
+  if (income <= 24_000_000) {
+    return 480_000
+  } else if (income <= 24_500_000) {
+    return 320_000
+  } else if (income <= 25_000_000) {
+    return 160_000
+  } else {
+    return 0
   }
 }
 
-// 住民税の計算
-const calculateResidentTax = (income: number): number => {
-  // 給与所得控除
-  const deduction = calculateSalaryDeduction(income)
-  const taxableIncome = income - deduction
-
-  // 住民税率（10%）
-  const tax = taxableIncome * 0.10
-
-  return Math.max(0, Math.floor(tax))
+// 社会保険料控除額を計算
+const getSocialInsuranceDeduction = (healthInsurance: number, pension: number): number => {
+  return healthInsurance + pension
 }
 
-// 計算結果
-const incomeTax = computed(() => calculateIncomeTax(annualIncome.value))
-const residentTax = computed(() => calculateResidentTax(annualIncome.value))
-const takeHomePay = computed(() => annualIncome.value - incomeTax.value - residentTax.value)
+// 所得税を計算
+const calculateIncomeTax = (taxableIncome: number): number => {
+  // 課税所得が0以下の場合は所得税を0とする
+  if (taxableIncome <= 0) return 0
 
-// 計算実行
-const calculate = () => {
-  // 入力値のバリデーション
-  if (!annualIncome.value || annualIncome.value <= 0) {
-    return
+  if (taxableIncome <= 1_950_000) {
+    return Math.floor(taxableIncome * 0.05)
+  } else if (taxableIncome <= 3_300_000) {
+    return Math.floor(taxableIncome * 0.1 - 97_500)
+  } else if (taxableIncome <= 6_950_000) {
+    return Math.floor(taxableIncome * 0.2 - 427_500)
+  } else if (taxableIncome <= 9_000_000) {
+    return Math.floor(taxableIncome * 0.23 - 636_000)
+  } else if (taxableIncome <= 18_000_000) {
+    return Math.floor(taxableIncome * 0.33 - 1_536_000)
+  } else if (taxableIncome <= 40_000_000) {
+    return Math.floor(taxableIncome * 0.4 - 2_796_000)
+  } else {
+    return Math.floor(taxableIncome * 0.45 - 4_796_000)
   }
 }
 
-// 親コンポーネントに計算結果を渡す
+// 住民税を計算
+const calculateResidentTax = (taxableIncome: number): number => {
+  // 課税所得が0以下の場合は住民税を0とする
+  if (taxableIncome <= 0) return 0
+  return Math.floor(taxableIncome * 0.1)
+}
+
+// 健康保険料を計算（標準報酬月額に基づく概算）
+const calculateHealthInsurance = (monthlyIncome: number): number => {
+  // 標準報酬月額の等級に応じた保険料率（概算）
+  const rate = 0.0981 // 9.81%（事業主負担分を除く）
+  return Math.floor(monthlyIncome * rate * 12)
+}
+
+// 厚生年金保険料を計算（標準報酬月額に基づく概算）
+const calculatePension = (monthlyIncome: number): number => {
+  // 標準報酬月額の等級に応じた保険料率（概算）
+  const rate = 0.0915 // 9.15%（事業主負担分を除く）
+  return Math.floor(monthlyIncome * rate * 12)
+}
+
+const calculateTax = async () => {
+  if (!form.value) return
+
+  const { valid } = await form.value.validate()
+  if (!valid) return
+
+  let totalAnnualIncome: number
+  let monthlyIncomeValue: number | undefined
+  let bonusValue: number | undefined
+
+  if (activeTab.value === 'annual') {
+    totalAnnualIncome = Number(annualIncome.value)
+    monthlyIncomeValue = Math.floor(totalAnnualIncome / 12)
+  } else {
+    totalAnnualIncome = Number(monthlyIncome.value) * 12 + Number(bonus.value)
+    monthlyIncomeValue = Number(monthlyIncome.value)
+    bonusValue = Number(bonus.value)
+  }
+
+  const salaryDeduction = getSalaryDeductionAmount(totalAnnualIncome)
+  const healthInsurance = calculateHealthInsurance(monthlyIncomeValue)
+  const pension = calculatePension(monthlyIncomeValue)
+  const socialInsuranceDeduction = getSocialInsuranceDeduction(healthInsurance, pension)
+  const basicDeduction = getBasicDeduction(totalAnnualIncome)
+
+  // 課税所得の計算（給与所得控除、基礎控除、社会保険料控除を考慮）
+  const taxableIncome = totalAnnualIncome - salaryDeduction - basicDeduction - socialInsuranceDeduction
+  const incomeTax = calculateIncomeTax(taxableIncome)
+  const residentTax = calculateResidentTax(taxableIncome)
+  const takeHomePay = totalAnnualIncome - incomeTax - residentTax - healthInsurance - pension
+
+  emit('update:results', {
+    annualIncome: totalAnnualIncome,
+    incomeTax,
+    residentTax,
+    healthInsurance,
+    pension,
+    takeHomePay,
+    monthlyIncome: monthlyIncomeValue,
+    bonus: bonusValue,
+    salaryDeduction,
+    basicDeduction,
+    socialInsuranceDeduction,
+    taxableIncome
+  })
+}
+
+// 入力値の変更を監視
+watch([annualIncome, monthlyIncome, bonus, activeTab], () => {
+  calculateTax()
+}, { immediate: true })
+
+// 外部からメソッドを呼び出せるように定義
 defineExpose({
-  annualIncome,
-  incomeTax,
-  residentTax,
-  takeHomePay
+  calculateTax
 })
 </script>

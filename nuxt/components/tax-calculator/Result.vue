@@ -4,46 +4,158 @@
     <v-card-text>
       <v-list>
         <v-list-item>
-          <template v-slot:prepend>
+          <template #prepend>
             <v-icon>mdi-cash</v-icon>
           </template>
-          <v-list-item-title>年収</v-list-item-title>
-          <v-list-item-subtitle class="text-right">{{ formatNumber(annualIncome) }}円</v-list-item-subtitle>
+          <div>
+            <v-list-item-title>年収</v-list-item-title>
+            <v-list-item-subtitle class="text-caption text-medium-emphasis">
+              <template v-if="monthlyIncome && bonus">
+                月収 {{ formatNumber(monthlyIncome) }}円 × 12ヶ月 + ボーナス {{ formatNumber(bonus) }}円
+              </template>
+            </v-list-item-subtitle>
+          </div>
+          <div class="text-right">
+            <div class="font-weight-bold">{{ formatNumber(annualIncome) }}円</div>
+          </div>
         </v-list-item>
 
-        <v-list-item>
-          <template v-slot:prepend>
-            <v-icon>mdi-cash-minus</v-icon>
-          </template>
-          <v-list-item-title>所得税</v-list-item-title>
-          <v-list-item-subtitle class="text-right">{{ formatNumber(incomeTax) }}円</v-list-item-subtitle>
-        </v-list-item>
-        <v-list-item class="text-caption text-medium-emphasis">
-          <v-list-item-subtitle>{{ getIncomeTaxFormula(annualIncome) }}</v-list-item-subtitle>
-        </v-list-item>
+        <v-expansion-panels class="mt-2">
+          <v-expansion-panel>
+            <v-expansion-panel-title>
+              <v-icon start>mdi-calculator</v-icon>
+              控除・課税所得の詳細
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-list>
+                <v-list-item>
+                  <template #prepend>
+                    <v-icon>mdi-cash-minus</v-icon>
+                  </template>
+                  <div>
+                    <v-list-item-title>給与所得控除</v-list-item-title>
+                    <v-list-item-subtitle class="text-caption text-medium-emphasis">
+                      {{ getSalaryDeductionFormula(annualIncome) }}
+                    </v-list-item-subtitle>
+                  </div>
+                  <div class="text-right">
+                    <div class="font-weight-bold">{{ formatNumber(salaryDeduction) }}円</div>
+                  </div>
+                </v-list-item>
 
-        <v-list-item>
-          <template v-slot:prepend>
-            <v-icon>mdi-cash-minus</v-icon>
-          </template>
-          <v-list-item-title>住民税</v-list-item-title>
-          <v-list-item-subtitle class="text-right">{{ formatNumber(residentTax) }}円</v-list-item-subtitle>
-        </v-list-item>
-        <v-list-item class="text-caption text-medium-emphasis">
-          <v-list-item-subtitle>{{ getResidentTaxFormula(annualIncome) }}</v-list-item-subtitle>
-        </v-list-item>
+                <v-list-item>
+                  <template #prepend>
+                    <v-icon>mdi-cash-minus</v-icon>
+                  </template>
+                  <div>
+                    <v-list-item-title>基礎控除</v-list-item-title>
+                    <v-list-item-subtitle class="text-caption text-medium-emphasis">
+                      年収2,400万円以下の場合48万円
+                    </v-list-item-subtitle>
+                  </div>
+                  <div class="text-right">
+                    <div class="font-weight-bold">{{ formatNumber(basicDeduction) }}円</div>
+                  </div>
+                </v-list-item>
+
+                <v-list-item>
+                  <template #prepend>
+                    <v-icon>mdi-cash-minus</v-icon>
+                  </template>
+                  <div>
+                    <v-list-item-title>社会保険料控除</v-list-item-title>
+                    <v-list-item-subtitle class="text-caption text-medium-emphasis">
+                      健康保険料 + 厚生年金保険料
+                    </v-list-item-subtitle>
+                  </div>
+                  <div class="text-right">
+                    <div class="font-weight-bold">{{ formatNumber(socialInsuranceDeduction) }}円</div>
+                  </div>
+                </v-list-item>
+
+                <v-list-item>
+                  <template #prepend>
+                    <v-icon>mdi-calculator</v-icon>
+                  </template>
+                  <div>
+                    <v-list-item-title>課税所得</v-list-item-title>
+                    <v-list-item-subtitle class="text-caption text-medium-emphasis">
+                      {{ getTaxableIncomeFormula(annualIncome) }}
+                    </v-list-item-subtitle>
+                  </div>
+                  <div class="text-right">
+                    <div class="font-weight-bold">{{ formatNumber(taxableIncome) }}円</div>
+                  </div>
+                </v-list-item>
+              </v-list>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
 
         <v-divider class="my-2" />
 
         <v-list-item>
-          <template v-slot:prepend>
-            <v-icon>mdi-cash-plus</v-icon>
+          <template #prepend>
+            <v-icon>mdi-cash-minus</v-icon>
           </template>
-          <v-list-item-title>手取り額</v-list-item-title>
-          <v-list-item-subtitle class="text-right text-h6">{{ formatNumber(takeHomePay) }}円</v-list-item-subtitle>
+          <div>
+            <v-list-item-title>所得税</v-list-item-title>
+            <v-list-item-subtitle class="text-caption text-medium-emphasis">
+              {{ getIncomeTaxFormula(annualIncome) }}
+            </v-list-item-subtitle>
+          </div>
+          <div class="text-right">
+            <div class="font-weight-bold">{{ formatNumber(incomeTax) }}円</div>
+            <div class="text-caption text-medium-emphasis">（月額 {{ formatNumber(Math.floor(incomeTax / 12)) }}円）</div>
+          </div>
         </v-list-item>
-        <v-list-item class="text-caption text-medium-emphasis">
-          <v-list-item-subtitle>年収 - 所得税 - 住民税</v-list-item-subtitle>
+
+        <v-list-item>
+          <template #prepend>
+            <v-icon>mdi-cash-minus</v-icon>
+          </template>
+          <div>
+            <v-list-item-title>住民税</v-list-item-title>
+            <v-list-item-subtitle class="text-caption text-medium-emphasis">
+              {{ getResidentTaxFormula(annualIncome) }}
+            </v-list-item-subtitle>
+          </div>
+          <div class="text-right">
+            <div class="font-weight-bold">{{ formatNumber(residentTax) }}円</div>
+            <div class="text-caption text-medium-emphasis">（月額 {{ formatNumber(Math.floor(residentTax / 12)) }}円）</div>
+          </div>
+        </v-list-item>
+
+        <v-list-item>
+          <template #prepend>
+            <v-icon>mdi-hospital-box</v-icon>
+          </template>
+          <div>
+            <v-list-item-title>健康保険料</v-list-item-title>
+            <v-list-item-subtitle class="text-caption text-medium-emphasis">
+              標準報酬月額 × 9.81% × 12ヶ月
+            </v-list-item-subtitle>
+          </div>
+          <div class="text-right">
+            <div class="font-weight-bold">{{ formatNumber(healthInsurance) }}円</div>
+            <div class="text-caption text-medium-emphasis">（月額 {{ formatNumber(Math.floor(healthInsurance / 12)) }}円）</div>
+          </div>
+        </v-list-item>
+
+        <v-list-item>
+          <template #prepend>
+            <v-icon>mdi-account-group</v-icon>
+          </template>
+          <div>
+            <v-list-item-title>厚生年金保険料</v-list-item-title>
+            <v-list-item-subtitle class="text-caption text-medium-emphasis">
+              標準報酬月額 × 9.15% × 12ヶ月
+            </v-list-item-subtitle>
+          </div>
+          <div class="text-right">
+            <div class="font-weight-bold">{{ formatNumber(pension) }}円</div>
+            <div class="text-caption text-medium-emphasis">（月額 {{ formatNumber(Math.floor(pension / 12)) }}円）</div>
+          </div>
         </v-list-item>
       </v-list>
     </v-card-text>
@@ -51,13 +163,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-
-const props = defineProps<{
+defineProps<{
   annualIncome: number
   incomeTax: number
   residentTax: number
+  healthInsurance: number
+  pension: number
   takeHomePay: number
+  monthlyIncome?: number
+  bonus?: number
+  salaryDeduction: number
+  basicDeduction: number
+  socialInsuranceDeduction: number
+  taxableIncome: number
 }>()
 
 const formatNumber = (num: number): string => {
@@ -126,10 +244,29 @@ const getSalaryDeductionAmount = (income: number): number => {
     return 1_950_000
   }
 }
+
+// 課税所得の計算式を取得
+const getTaxableIncomeFormula = (_: number): string => {
+  return `年収 - 給与所得控除 - 基礎控除 - 社会保険料控除`
+}
 </script>
 
 <style lang="scss" scoped>
+.v-list-item {
+  padding: 12px 16px;
+}
+
 .v-list-item-subtitle {
   min-width: 150px;
+}
+
+.v-list-item-title {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.text-h6 {
+  font-size: 1.25rem !important;
+  font-weight: 500 !important;
 }
 </style>
