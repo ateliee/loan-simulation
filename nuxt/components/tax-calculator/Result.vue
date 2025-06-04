@@ -163,7 +163,7 @@
 </template>
 
 <script setup lang="ts">
-import type { TaxCalculationResultData, EmploymentType } from '~/types/tax-calculator'
+import type { TaxCalculationResultData } from '~/types/tax-calculator'
 
 const props = defineProps<TaxCalculationResultData>()
 
