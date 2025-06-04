@@ -36,6 +36,7 @@ export default [
         useCookie: "readonly",
         definePageMeta: "readonly",
         PageMeta: "readonly",
+        process: "readonly",
       },
       parser: tsParser,
       parserOptions: {

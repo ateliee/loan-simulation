@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   dev:
     build: ./nuxt
@@ -9,6 +8,11 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - FIREBASE_PROJECT_ID=demo-project
+      - FIREBASE_EMULATOR_HOST=localhost
+      - FIREBASE_CLIENT_EMAIL=demo@example.com
+      # TODO: ダミーの証明書を設定する
+      - FIREBASE_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\nfakekey\n-----END PRIVATE KEY-----\n
     command: npm run dev
   preview:
     build: ./nuxt
@@ -16,3 +20,15 @@ services:
       - "3001:3000"
     environment:
       - NODE_ENV=production
+  firebase:
+    build: ./infra/firebase
+    volumes:
+      - ./.firebaserc:/app/.firebaserc
+      - ./firebase.json:/app/firebase.json
+    command: npx -p firebase-tools --yes firebase emulators:start
+    ports:
+      - "4000:4000"  # Emulator UI
+      - "8080:8080"  # Firestore
+    environment:
+      - NODE_ENV=development
+    tty: true

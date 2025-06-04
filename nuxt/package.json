@@ -16,12 +16,16 @@
     "lint": "npm run typecheck && npm run lint:js && npm run lint:style",
     "lint:fix": "npm run lint:js:fix && npm run lint:style:fix",
     "typecheck": "vue-tsc --noEmit",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "interest-rates:update": "npx jiti bin/interest-rates-update.ts"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@pinia/nuxt": "^0.11.0",
+    "chalk": "^5.4.1",
+    "cheerio": "^1.0.0",
     "echarts": "^5.6.0",
+    "firebase-admin": "^13.4.0",
     "nuxt": "^3.17.4",
     "pinia": "^3.0.2",
     "vue": "^3.5.15",
@@ -31,11 +35,14 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
+    "@types/cheerio": "^0.22.35",
+    "@types/node": "^22.15.29",
     "@typescript-eslint/eslint-plugin": "^8.33.0",
     "@typescript-eslint/parser": "^8.33.0",
     "eslint": "^9.27.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-vue": "^9.33.0",
+    "firebase-tools": "^13.35.1",
     "postcss-html": "^1.8.0",
     "sass": "^1.89.0",
     "stylelint": "^16.19.1",

@@ -30,6 +30,7 @@
 - Vuetify 3
 - ESLint
 - Stylelint
+- Firebase (Firestore)
 
 ## プロジェクト構成
 
@@ -66,6 +67,7 @@ MIT
 | make test          | テスト実行（※テスト追加時に編集）    |
 | make up            | Docker Composeで開発/本番起動        |
 | make down          | Docker Compose停止                   |
+| make reset         | コンテナ・ボリューム・イメージを完全に削除 |
 
 ---
 
@@ -76,4 +78,62 @@ MIT
 1. GitHubリポジトリのSecreasに `FIREBASE_TOKEN` を登録してください。
 2. `main`ブランチにpushすると、自動的にSPAビルド＆Firebase Hostingへデプロイされます。
 
+## Firebase Emulator
+
+ローカル開発環境でFirebaseの機能をエミュレートするために、Firebase Emulatorを使用しています。
+
+### エミュレーターの起動
+
+```bash
+make up
+```
+
+これにより、以下のサービスが起動します：
+- 開発サーバー（`http://localhost:3000`）
+- Firebase Emulator UI（`http://localhost:4000`）
+- Firestore Emulator（`localhost:8080`）
+
+### データの永続化
+
+エミュレーターのデータは、コンテナを再起動すると消去されます。データを永続化する場合は、以下のコマンドを使用します：
+
+```bash
+# データのエクスポート
+docker compose exec firebase firebase emulators:export ./firebase-data
+
+# データのインポート
+docker compose up -d firebase --import=./firebase-data
+```
+
 ---
+
+## コマンド
+
+### 金利情報の取得
+各銀行の最新の住宅ローン金利情報を取得します。
+
+```bash
+npm run interest-rates:update
+```
+
+出力例：
+```
+=== 金利情報 ===
+借入タイプ: 変動金利
+店頭金利: 2.875%
+適用金利: 0.595%
+引き下げ率: 2.28%
+
+最終更新: 2024/3/21 15:30:45
+```
+
+---
+
+# その他
+
+git rebaseでcommitをまとめる
+
+```
+git commit --fixup ***
+git rebase -i --autosquash HEAD~2
+```
