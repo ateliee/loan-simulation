@@ -33,7 +33,7 @@ const formatNumber = (num: number): string => {
   background-color: rgb(var(--v-theme-primary-lighten-5));
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
   .text-h4 {
     font-size: 1.5rem !important;
   }

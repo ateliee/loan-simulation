@@ -278,7 +278,7 @@ const getPensionDescription = (): string => {
   font-weight: 500 !important;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
   .v-list-item {
     padding: 8px 12px;
   }
