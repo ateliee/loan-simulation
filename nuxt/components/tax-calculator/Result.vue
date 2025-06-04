@@ -218,23 +218,6 @@ const residentTaxFormula = computed((): string => {
   return `課税所得（${formatNumber(props.taxableIncome)}円）× 10%`
 })
 
-// 給与所得控除額を計算
-const getSalaryDeductionAmount = (income: number): number => {
-  if (income <= 1_625_000) {
-    return 550_000
-  } else if (income <= 1_800_000) {
-    return Math.floor(income * 0.4)
-  } else if (income <= 3_600_000) {
-    return Math.floor(income * 0.3 + 180_000)
-  } else if (income <= 6_600_000) {
-    return Math.floor(income * 0.2 + 540_000)
-  } else if (income <= 8_500_000) {
-    return Math.floor(income * 0.1 + 1_200_000)
-  } else {
-    return 1_950_000
-  }
-}
-
 // 健康保険料の説明を取得
 const healthInsuranceDescription = computed((): string => {
   if (props.employmentType === 'fullTime') {
