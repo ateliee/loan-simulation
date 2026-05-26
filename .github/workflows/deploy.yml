@@ -10,6 +10,8 @@ on:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 permissions:
   contents: write
+  # google-github-actions/auth（WIF）で OIDC トークンを取得するために必須
+  id-token: write
 jobs:
   tag:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
