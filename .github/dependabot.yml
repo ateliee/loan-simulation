@@ -5,8 +5,7 @@ updates:
     directory: /nuxt
     schedule:
       interval: weekly
-    # 通常のバージョン更新PRは作成せず、セキュリティ更新のみ
-    open-pull-requests-limit: 0
+    open-pull-requests-limit: 1
     cooldown:
       default-days: 7
     groups:
@@ -26,7 +25,7 @@ updates:
     directory: /
     schedule:
       interval: weekly
-    open-pull-requests-limit: 0
+    open-pull-requests-limit: 1
     cooldown:
       default-days: 7
     groups:
@@ -46,7 +45,7 @@ updates:
     directory: /nuxt
     schedule:
       interval: weekly
-    open-pull-requests-limit: 0
+    open-pull-requests-limit: 1
     cooldown:
       default-days: 7
     groups:
@@ -66,7 +65,7 @@ updates:
     directory: /infra/firebase
     schedule:
       interval: weekly
-    open-pull-requests-limit: 0
+    open-pull-requests-limit: 1
     cooldown:
       default-days: 7
     groups:
