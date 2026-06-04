@@ -1,5 +1,5 @@
 # Node.js公式イメージを利用
-FROM node:24-alpine
+FROM node:26-alpine
 
 WORKDIR /app
 
