@@ -16,10 +16,10 @@ updates:
         update-types:
           - patch
           - minor
-    ignore:
-      - dependency-name: "*"
-        update-types:
-          - version-update:semver-major
+    # ignore:
+    #   - dependency-name: "*"
+    #     update-types:
+    #       - version-update:semver-major
 
   - package-ecosystem: github-actions
     directory: /
@@ -36,10 +36,10 @@ updates:
         update-types:
           - patch
           - minor
-    ignore:
-      - dependency-name: "*"
-        update-types:
-          - version-update:semver-major
+    # ignore:
+    #   - dependency-name: "*"
+    #     update-types:
+    #       - version-update:semver-major
 
   - package-ecosystem: docker
     directory: /nuxt
@@ -56,10 +56,10 @@ updates:
         update-types:
           - patch
           - minor
-    ignore:
-      - dependency-name: "*"
-        update-types:
-          - version-update:semver-major
+    # ignore:
+    #   - dependency-name: "*"
+    #     update-types:
+    #       - version-update:semver-major
 
   - package-ecosystem: docker
     directory: /infra/firebase
@@ -76,7 +76,7 @@ updates:
         update-types:
           - patch
           - minor
-    ignore:
-      - dependency-name: "*"
-        update-types:
-          - version-update:semver-major
+    # ignore:
+    #   - dependency-name: "*"
+    #     update-types:
+    #       - version-update:semver-major
