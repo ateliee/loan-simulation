@@ -18,10 +18,13 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       new_tag: ${{ steps.generate_tag.outputs.new_tag }}
+      tag_exists: ${{ steps.check_existing_tag.outputs.exists }}
     steps:
       - uses: actions/checkout@v6.0.2
         with:
           fetch-depth: 0
+
+
 
       - name: Configure Git
         run: |
@@ -36,6 +39,7 @@ jobs:
 
       - name: Generate new tag
         id: generate_tag
+
         run: |
           LATEST_TAG=${{ steps.get_latest_tag.outputs.latest_tag }}
           VERSION=$(echo $LATEST_TAG | cut -d'v' -f2)
@@ -45,15 +49,23 @@ jobs:
           NEW_PATCH=$((PATCH + 1))
           NEW_TAG="v$MAJOR.$MINOR.$NEW_PATCH"
           echo "new_tag=$NEW_TAG" >> $GITHUB_OUTPUT
-
+      - name: Check if tag already exists
+        id: check_existing_tag
+        run: |
+          if git rev-parse "${{ steps.generate_tag.outputs.new_tag }}" > /dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
       - name: Create and push tag
+        if: ${{ steps.check_existing_tag.outputs.exists == 'false' }}
         run: |
           git tag ${{ steps.generate_tag.outputs.new_tag }}
           git push origin ${{ steps.generate_tag.outputs.new_tag }}
 
   deploy:
     needs: tag
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && needs.tag.outputs.new_tag != '' && needs.tag.outputs.tag_exists == 'false' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6.0.2
