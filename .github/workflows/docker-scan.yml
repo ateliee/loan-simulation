@@ -1,0 +1,33 @@
+name: "Docker Image Vulnerability Scan"
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  scan:
+    name: Build and Scan with Trivy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write # Securityタブに警告を書き込むための権限
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+
+      - name: Build Docker Image
+        run: cd ./nuxt && docker build -t my-app:latest .
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: 'my-app:latest'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH' # 検知したい深刻度
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() # スキャンでエラーが出ても必ずアップロードする
+        with:
+          sarif_file: 'trivy-results.sarif'
