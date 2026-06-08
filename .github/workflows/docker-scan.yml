@@ -31,7 +31,7 @@ jobs:
           skip-dirs: 'node_modules'
 
       - name: Upload Trivy SARIF report as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: trivy-sarif-report
           path: trivy-results.sarif
