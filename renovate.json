@@ -1,5 +1,25 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "schedule": ["before 5am on Monday"]
+  "schedule": ["before 5am on Monday"],
+  "packageRules": [
+    {
+      "groupName": "npm-security",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "matchCategories": ["security"]
+    },
+    {
+      "groupName": "github-actions-security",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "matchCategories": ["security"]
+    },
+    {
+      "groupName": "docker-security",
+      "matchManagers": ["dockerfile"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "matchCategories": ["security"]
+    }
+  ]
 }
