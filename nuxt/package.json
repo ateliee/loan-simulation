@@ -42,7 +42,7 @@
     "@typescript-eslint/parser": "^8.33.0",
     "eslint": "^9.27.0",
     "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-vue": "^9.33.0",
+    "eslint-plugin-vue": "^10.0.0",
     "firebase-tools": "^15.18.0",
     "postcss-html": "^1.8.0",
     "sass": "^1.89.0",
