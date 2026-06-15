@@ -1,5 +1,10 @@
 name: Renovate
 
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
 on:
   schedule:
     - cron: "0 0 * * *"  # 毎日 0:00 UTC に実行（必要に応じて変更可）
