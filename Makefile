@@ -19,7 +19,7 @@ preview:
 	docker compose up -d $(PREVIEW_CONTAINER)
 
 lint:
-	docker compose exec $(DEV_CONTAINER) npx eslint .
+	docker compose exec $(DEV_CONTAINER) sh -c "npm run lint"
 
 format:
 	docker compose exec $(DEV_CONTAINER) npx prettier --write .

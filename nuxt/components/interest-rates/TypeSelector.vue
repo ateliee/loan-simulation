@@ -135,14 +135,17 @@ const clearAllBanks = () => {
 
 // 最新の金利情報を取得（日付付き）
 const getLatestRateInfo = (bank: typeof INTEREST_RATE_DATA[0]) => {
-  const rate = bank[props.selectedRateType][bank[props.selectedRateType].length - 1]
+  const rates = bank[props.selectedRateType] ?? []
+  const latest = rates[rates.length - 1]
+  if (!latest) return ''
   const rateType = props.selectedRateType === 'variable' ? '変動' : '固定'
-  return `${rate.date}時点 ${rateType}金利: ${rate.applied}%`
+  return `${latest.date}時点 ${rateType}金利: ${latest.applied}%`
 }
 
 // 最新の政策金利情報を取得（日付付き）
 const getLatestPolicyRateInfo = () => {
   const latestPolicyRate = POLICY_RATE_DATA[POLICY_RATE_DATA.length - 1]
+  if (!latestPolicyRate) return ''
   return `${latestPolicyRate.date}時点 ${latestPolicyRate.rate}%`
 }
 </script>

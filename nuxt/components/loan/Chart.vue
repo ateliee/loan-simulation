@@ -29,12 +29,12 @@ use([
 
 const props = defineProps({
   /** 返済計画表のデータ */
-  resultTable: { type: Object as PropType<LoanResult[]>, required: true },
+  resultTable: { type: Array as PropType<LoanResult[]>, required: true },
 })
 
 const chartOption = computed(() => {
   const maxTotal = Math.max(
-    ...props.resultTable.map(row => row.remainingPrincipal)
+    ...props.resultTable.map(row => row.remainingPrincipal ?? 0)
   )
   const maxValue = Math.ceil(maxTotal / 1000000) * 1000000 // 100万円単位で切り上げ
 
@@ -48,19 +48,21 @@ const chartOption = computed(() => {
         }
       },
       formatter: (params: { dataIndex: number }[]) => {
+        if (!params[0]) return ''
         const month = params[0].dataIndex + 1
         const year = Math.floor(month / 12) + 1
         const monthInYear = month % 12 || 12
         const row = props.resultTable[params[0].dataIndex]
+        if (!row) return ''
         const totalPayment = row.principalPayment + row.interest
-        const principalRatio = (row.principalPayment / totalPayment * 100).toFixed(1)
-        const interestRatio = (row.interest / totalPayment * 100).toFixed(1)
+        const principalRatio = totalPayment > 0 ? (row.principalPayment / totalPayment * 100).toFixed(1) : '0.0'
+        const interestRatio = totalPayment > 0 ? (row.interest / totalPayment * 100).toFixed(1) : '0.0'
 
         let result = `${month}ヶ月目 (${year}年${monthInYear}ヶ月)<br/>`
         result += `ローン返済額: ${totalPayment.toLocaleString()}円<br/>`
         result += `元本返済額: ${row.principalPayment.toLocaleString()}円 (${principalRatio}%)<br/>`
         result += `利息: ${row.interest.toLocaleString()}円 (${interestRatio}%)<br/>`
-        result += `残元金: ${row.remainingPrincipal.toLocaleString()}円`
+        result += `残元金: ${(row.remainingPrincipal ?? 0).toLocaleString()}円`
         return result
       },
     },
@@ -94,8 +96,12 @@ const chartOption = computed(() => {
         name: '元本',
         type: 'line',
         stack: 'total',
-        data: props.resultTable.map(row => row.principalPayment / (row.principalPayment + row.interest) * row.remainingPrincipal),
-        itemStyle: { color: '#1867C0' },
+        data: props.resultTable.map(row => {
+        const total = row.principalPayment + row.interest
+        if (total === 0) return 0
+        return row.principalPayment / total * (row.remainingPrincipal ?? 0)
+      }),
+      itemStyle: { color: '#1867C0' },
         lineStyle: {
           width: 0
         },
@@ -109,8 +115,12 @@ const chartOption = computed(() => {
         name: '利息',
         type: 'line',
         stack: 'total',
-        data: props.resultTable.map(row => row.interest / (row.principalPayment + row.interest) * row.remainingPrincipal),
-        itemStyle: { color: '#FF5252' },
+        data: props.resultTable.map(row => {
+        const total = row.principalPayment + row.interest
+        if (total === 0) return 0
+        return row.interest / total * (row.remainingPrincipal ?? 0)
+      }),
+      itemStyle: { color: '#FF5252' },
         lineStyle: {
           width: 0
         },
