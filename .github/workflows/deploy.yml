@@ -98,7 +98,7 @@ jobs:
       - name: Deploy to Firebase Hosting
         run: npm install -g firebase-tools@15.18.0 && firebase deploy --only hosting --non-interactive
       - name: Create GitHub Release (auto notes)
-        uses: softprops/action-gh-release@v3.0.0
+        uses: softprops/action-gh-release@v3.0.1
         with:
           tag_name: ${{ needs.tag.outputs.new_tag }}
           generate_release_notes: true
